@@ -12,18 +12,30 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg: #1c1b19;
-    --bg-raised: #24221f;
-    --chalk: #ede9e0;
-    --chalk-dim: #a8a39a;
-    --iron-red: #b03f37;
-    --iron-red-bg: rgba(176,63,55,0.14);
-    --moss-green: #5f8a5a;
-    --moss-green-bg: rgba(95,138,90,0.16);
-    --brass: #b6905c;
-    --line: #38352f;
-  }
+:root{
+  --bg: #1c1b19;
+  --bg-raised: #24221f;
+  --chalk: #ede9e0;
+  --chalk-dim: #a8a39a;
+  --iron-red: #b03f37;
+  --iron-red-bg: rgba(176,63,55,0.14);
+  --moss-green: #5f8a5a;
+  --moss-green-bg: rgba(95,138,90,0.16);
+  --brass: #b6905c;
+  --line: #38352f;
+}
+:root[data-theme="light"]{
+  --bg: #f7f5f0;
+  --bg-raised: #ffffff;
+  --chalk: #2a2823;
+  --chalk-dim: #766f62;
+  --iron-red: #b03f37;
+  --iron-red-bg: rgba(176,63,55,0.10);
+  --moss-green: #4a7546;
+  --moss-green-bg: rgba(74,117,70,0.12);
+  --brass: #9c7443;
+  --line: #ddd6c8;
+}
   *{ box-sizing:border-box; }
   body{
     margin:0; padding:0; background:var(--bg); color:var(--chalk);
@@ -31,8 +43,16 @@
   }
   .wrap{ max-width:640px; margin:0 auto; padding:28px 18px 60px; }
 
-  .header{ margin-bottom:22px; }
-  .eyebrow{
+.header{ margin-bottom:22px; position:relative; }
+.theme-toggle{
+  position:absolute; top:0; left:0;
+  width:36px; height:36px; border-radius:50%;
+  border:1px solid var(--line); background:var(--bg-raised);
+  color:var(--chalk); font-size:16px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:background 0.15s;
+}
+.theme-toggle:hover{ background:var(--line); }  .eyebrow{
     font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:3px;
     color:var(--brass); text-transform:uppercase; margin:0 0 6px;
   }
@@ -146,12 +166,12 @@
 </head>
 <body>
 
-<div class="wrap">
-  <div class="header">
-    <p class="eyebrow">מעקב תוכנית אימונים</p>
-    <h1>הלוח שלי</h1>
-    <p class="sub">12.7 – 1.10.2026 · חדר כושר + ריצות · יעד: 15 ק"מ</p>
-  </div>
+<div class="header">
+  <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" aria-label="החלף מצב תצוגה">🌙</button>
+  <p class="eyebrow">מעקב תוכנית אימונים</p>
+  <h1>הלוח שלי</h1>
+  <p class="sub">12.7 – 1.10.2026 · חדר כושר + ריצות · יעד: 15 ק"מ</p>
+</div>
 
   <div class="now-panel" id="now-panel"></div>
 
@@ -482,6 +502,19 @@ function render(){
 
   renderNowPanel();
 }
+
+function applyTheme(theme){
+  document.documentElement.setAttribute('data-theme', theme);
+  document.getElementById('themeToggle').textContent = theme === 'light' ? '☀️' : '🌙';
+  localStorage.setItem('theme', theme);
+}
+
+function toggleTheme(){
+  const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  applyTheme(current === 'light' ? 'dark' : 'light');
+}
+
+applyTheme(localStorage.getItem('theme') || 'dark');
 
 loadState();
 
