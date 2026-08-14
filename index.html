@@ -1,3 +1,5 @@
+
+Index · HTML
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -42,7 +44,7 @@
     font-family:'JetBrains Mono', monospace;
   }
   .wrap{ max-width:640px; margin:0 auto; padding:28px 18px 60px; }
-
+ 
 .header{ margin-bottom:22px; position:relative; }
 .theme-toggle{
   position:absolute; top:0; left:0;
@@ -61,7 +63,7 @@
     margin:0 0 4px; letter-spacing:0.5px; color:var(--chalk);
   }
   .sub{ color:var(--chalk-dim); font-size:13px; margin:0; }
-
+ 
   .stats{
     display:flex; gap:10px; margin:20px 0 26px;
   }
@@ -71,12 +73,12 @@
   }
   .stat .n{ font-family:'Oswald',sans-serif; font-size:26px; font-weight:600; color:var(--chalk); }
   .stat .l{ font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--chalk-dim); margin-top:2px; }
-
+ 
   .plates{ display:flex; gap:3px; margin-top:10px; flex-wrap:wrap; }
   .plate{ width:14px; height:14px; background:var(--line); }
   .plate.done{ background:var(--moss-green); }
   .plate.missed{ background:var(--iron-red); }
-
+ 
   .week{ margin-bottom:8px; border:1px solid var(--line); background:var(--bg-raised); }
   .week-head{
     display:flex; justify-content:space-between; align-items:center;
@@ -87,16 +89,16 @@
   .week-range{ font-size:11px; color:var(--chalk-dim); }
   .week-body{ border-top:1px solid var(--line); }
   .week-body.collapsed{ display:none; }
-
+ 
   .day{
     display:flex; align-items:center; gap:12px;
     padding:11px 14px; border-bottom:1px solid var(--line);
     transition:background 0.15s;
   }
   .day:last-child{ border-bottom:none; }
-
+ 
   .day.rest{ opacity:0.45; }
-
+ 
   .checkbox{
     width:20px; height:20px; flex:none; border:2px solid var(--chalk-dim);
     display:flex; align-items:center; justify-content:center; cursor:pointer;
@@ -106,23 +108,23 @@
   .day.missed .checkbox{ border-color:var(--iron-red); background:transparent; color:transparent; }
   .day.upcoming .checkbox{ border-color:var(--chalk-dim); }
   .day.rest .checkbox{ visibility:hidden; }
-
+ 
   .day-main{ flex:1; min-width:0; }
   .date{ font-size:11px; color:var(--chalk-dim); }
   .activity{ font-size:13px; color:var(--chalk); margin-top:1px; }
   .day.missed .activity{ color:#d9948e; }
   .day.done .activity{ color:var(--chalk); }
   .detail{ font-size:11px; color:var(--chalk-dim); margin-top:1px; }
-
+ 
   .tag{
     font-size:9px; letter-spacing:1px; text-transform:uppercase;
     padding:3px 6px; border:1px solid var(--line); color:var(--chalk-dim); flex:none;
   }
   .day.missed{ background:var(--iron-red-bg); }
   .day.done{ background:var(--moss-green-bg); }
-
+ 
   .footnote{ margin-top:20px; font-size:11px; color:var(--chalk-dim); line-height:1.6; text-align:center; }
-
+ 
   /* Current week floating bubble */
   body{ padding-bottom:110px; }
   .now-panel{
@@ -154,7 +156,7 @@
   .now-row .v{ color:var(--chalk); font-weight:600; }
   .now-panel .now-details{ display:none; margin-top:8px; }
   .now-panel.expanded .now-details{ display:block; }
-
+ 
   /* Past week states */
   .week.week-complete{ background:var(--moss-green-bg); border-color:var(--moss-green); }
   .week.week-incomplete{ background:var(--iron-red-bg); border-color:var(--iron-red); }
@@ -165,16 +167,16 @@
 </style>
 </head>
 <body>
-
+ 
 <div class="header">
   <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" aria-label="החלף מצב תצוגה">🌙</button>
   <p class="eyebrow">מעקב תוכנית אימונים</p>
   <h1>הלוח שלי</h1>
   <p class="sub">12.7 – 1.10.2026 · חדר כושר + ריצות · יעד: 15 ק"מ</p>
 </div>
-
+ 
   <div class="now-panel" id="now-panel"></div>
-
+ 
   <div class="stats">
     <div class="stat">
       <div class="n" id="stat-done">0</div>
@@ -189,12 +191,12 @@
       <div class="l" id="stat-achieve-label">אימונים שהושלמו</div>
     </div>
   </div>
-
+ 
   <div id="weeks"></div>
-
+ 
   <p class="footnote">לחץ על הריבוע כדי לסמן אימון כבוצע · ירוק = בוצע · אדום = יום שעבר בלי סימון · שבועות שעברו נעולים · בשבתות יש פעילות ספורטיבית 🏅 בונוס - לא משפיעה על ציון השבוע, אבל מקדמת את ההישגים · המידע נשמר אוטומטית</p>
 </div>
-
+ 
 <script>
 const DATA = [
   {w:1, range:"12.7–18.7", days:[
@@ -246,7 +248,7 @@ const DATA = [
     {date:"2026-08-16", day:"ראשון", type:"run", act:"ריצה ראשית", det:"8 ק\"מ - קצב קל"},
     {date:"2026-08-17", day:"שני", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית"},
     {date:"2026-08-18", day:"שלישי", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן"},
-    {date:"2026-08-19", day:"רביעי", type:"run", act:"ריצה שנייה", det:"6x400 מ' - קצב מהיר (אינטרוולים)"},
+    {date:"2026-08-19", day:"רביעי", type:"home", act:"אימון בית", det:"45 דק' - גוף כובד"},
     {date:"2026-08-20", day:"חמישי", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות"},
     {date:"2026-08-21", day:"שישי", type:"rest", act:"מנוחה", det:""},
     {date:"2026-08-22", day:"שבת", type:"bonus", act:"פעילות ספורטיבית 🏅", det:"30 דקות - לבחירתך"},
@@ -255,7 +257,7 @@ const DATA = [
     {date:"2026-08-23", day:"ראשון", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן"},
     {date:"2026-08-24", day:"שני", type:"run", act:"ריצה ראשית", det:"9 ק\"מ - קצב קל"},
     {date:"2026-08-25", day:"שלישי", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות"},
-    {date:"2026-08-26", day:"רביעי", type:"run", act:"ריצה שנייה", det:"7 ק\"מ - קצב בינוני-מהיר (טמפו)"},
+    {date:"2026-08-26", day:"רביעי", type:"home", act:"אימון בית", det:"45 דק' - גוף כובד"},
     {date:"2026-08-27", day:"חמישי", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית"},
     {date:"2026-08-28", day:"שישי", type:"rest", act:"מנוחה", det:""},
     {date:"2026-08-29", day:"שבת", type:"bonus", act:"פעילות ספורטיבית 🏅", det:"30 דקות - לבחירתך"},
@@ -265,7 +267,7 @@ const DATA = [
     {date:"2026-08-31", day:"שני", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית"},
     {date:"2026-09-01", day:"שלישי", type:"run", act:"ריצה ראשית", det:"6 ק\"מ - קצב קל"},
     {date:"2026-09-02", day:"רביעי", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן"},
-    {date:"2026-09-03", day:"חמישי", type:"run", act:"ריצה שנייה", det:"4 ק\"מ - קצב קל"},
+    {date:"2026-09-03", day:"חמישי", type:"home", act:"אימון בית", det:"45 דק' - גוף כובד"},
     {date:"2026-09-04", day:"שישי", type:"rest", act:"מנוחה", det:""},
     {date:"2026-09-05", day:"שבת", type:"bonus", act:"פעילות ספורטיבית 🏅", det:"30 דקות - לבחירתך"},
   ]},
@@ -273,7 +275,7 @@ const DATA = [
     {date:"2026-09-06", day:"ראשון", type:"run", act:"ריצה ראשית", det:"10 ק\"מ - קצב קל"},
     {date:"2026-09-07", day:"שני", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית"},
     {date:"2026-09-08", day:"שלישי", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן"},
-    {date:"2026-09-09", day:"רביעי", type:"run", act:"ריצה שנייה", det:"8x400 מ' - קצב מהיר (אינטרוולים)"},
+    {date:"2026-09-09", day:"רביעי", type:"home", act:"אימון בית", det:"45 דק' - גוף כובד"},
     {date:"2026-09-10", day:"חמישי", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות"},
     {date:"2026-09-11", day:"שישי", type:"rest", act:"מנוחה", det:""},
     {date:"2026-09-12", day:"שבת", type:"bonus", act:"פעילות ספורטיבית 🏅", det:"30 דקות - לבחירתך"},
@@ -282,7 +284,7 @@ const DATA = [
     {date:"2026-09-13", day:"ראשון", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן"},
     {date:"2026-09-14", day:"שני", type:"run", act:"ריצה ראשית", det:"12 ק\"מ - קצב קל"},
     {date:"2026-09-15", day:"שלישי", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות"},
-    {date:"2026-09-16", day:"רביעי", type:"run", act:"ריצה שנייה", det:"8 ק\"מ - קצב בינוני (טמפו)"},
+    {date:"2026-09-16", day:"רביעי", type:"home", act:"אימון בית", det:"45 דק' - גוף כובד"},
     {date:"2026-09-17", day:"חמישי", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית"},
     {date:"2026-09-18", day:"שישי", type:"rest", act:"מנוחה", det:""},
     {date:"2026-09-19", day:"שבת", type:"bonus", act:"פעילות ספורטיבית 🏅", det:"30 דקות - לבחירתך"},
@@ -292,7 +294,7 @@ const DATA = [
     {date:"2026-09-21", day:"שני", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית"},
     {date:"2026-09-22", day:"שלישי", type:"run", act:"ריצה ראשית", det:"8 ק\"מ - קצב קל"},
     {date:"2026-09-23", day:"רביעי", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן"},
-    {date:"2026-09-24", day:"חמישי", type:"run", act:"ריצה שנייה", det:"5 ק\"מ - קצב קל"},
+    {date:"2026-09-24", day:"חמישי", type:"home", act:"אימון בית", det:"45 דק' - גוף כובד"},
     {date:"2026-09-25", day:"שישי", type:"rest", act:"מנוחה", det:""},
     {date:"2026-09-26", day:"שבת", type:"bonus", act:"פעילות ספורטיבית 🏅", det:"30 דקות - לבחירתך"},
   ]},
@@ -300,13 +302,13 @@ const DATA = [
     {date:"2026-09-27", day:"ראשון", type:"run", act:"ריצה ראשית - היעד! 🎯", det:"15 ק\"מ - קצב קל"},
     {date:"2026-09-28", day:"שני", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית"},
     {date:"2026-09-29", day:"שלישי", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן"},
-    {date:"2026-09-30", day:"רביעי", type:"run", act:"ריצה שנייה", det:"4 ק\"מ - קצב קל (התאוששות)"},
+    {date:"2026-09-30", day:"רביעי", type:"home", act:"אימון בית", det:"45 דק' - גוף כובד"},
     {date:"2026-10-01", day:"חמישי", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות"},
   ]},
 ];
-
+ 
 let completed = {};
-
+ 
 // Seed: user confirmed week 1 was fully completed but couldn't check it
 // because it was already locked by the time this feature was added.
 const SEED_COMPLETED = [
@@ -314,13 +316,13 @@ const SEED_COMPLETED = [
   "2026-07-19","2026-07-20","2026-07-21","2026-07-22","2026-07-23", // week 2 - done (25/7 bonus not done, left unmarked)
   "2026-07-26","2026-07-27","2026-07-29","2026-07-30","2026-08-01" // week 3 - done (28/7 gym missed - left unmarked; 1/8 bonus DONE)
 ];
-
+ 
 function loadState(){
   try{
     const raw = localStorage.getItem('completed-days');
     if(raw){ completed = JSON.parse(raw); }
   }catch(e){ completed = {}; }
-
+ 
   let seeded = false;
   SEED_COMPLETED.forEach(date => {
     if(!completed[date]){
@@ -329,16 +331,16 @@ function loadState(){
     }
   });
   if(seeded) saveState();
-
+ 
   render();
 }
-
+ 
 function saveState(){
   try{
     localStorage.setItem('completed-days', JSON.stringify(completed));
   }catch(e){ console.error('Storage error', e); }
 }
-
+ 
 function todayStr(){
   const d = new Date();
   const y = d.getFullYear();
@@ -346,12 +348,12 @@ function todayStr(){
   const day = String(d.getDate()).padStart(2,'0');
   return `${y}-${m}-${day}`;
 }
-
+ 
 // Saturday bonus activity pool - rotates between these 3, always visible
 function getDisplayDetail(item){
   return item.det;
 }
-
+ 
 function dayState(item){
   if(item.type === 'rest') return 'rest';
   const isDone = !!completed[item.date];
@@ -359,99 +361,100 @@ function dayState(item){
   if(item.date < todayStr()) return 'missed';
   return 'upcoming';
 }
-
+ 
 function toggle(date){
   if(completed[date]) delete completed[date];
   else completed[date] = true;
   saveState();
   render();
 }
-
+ 
 function renderNowPanel(){
   const panel = document.getElementById('now-panel');
   const today = todayStr();
   const allWeeks = DATA;
-
+ 
   const allDays = allWeeks.flatMap(w => w.days);
   const todayItem = allDays.find(d => d.date === today);
-
+ 
   if(!todayItem){
     panel.innerHTML = `<p class="eyebrow2">התוכנית</p><p class="now-title"><span>${today < allDays[0].date ? 'עוד לא התחיל' : 'הסתיים! 🎉'}</span></p>`;
     return;
   }
-
+ 
   const dateLabel = `${today.split('-').reverse().slice(0,2).join('.')} · ${todayItem.day}`;
-
+ 
   let category;
   if(todayItem.type === 'rest') category = 'מנוחה';
   else if(todayItem.type === 'gym') category = 'כוח 💪';
   else if(todayItem.type === 'run') category = 'ריצה 🏃';
+  else if(todayItem.type === 'home') category = 'אימון בית 🏠';
   else if(todayItem.type === 'double') category = 'כוח + ריצה';
   else if(todayItem.type === 'bonus') category = 'פעילות ספורטיבית 🏅';
   else category = todayItem.act;
-
+ 
   const detail = getDisplayDetail(todayItem) || '';
-
+ 
   panel.innerHTML = `<p class="eyebrow2">${dateLabel}</p>
     <p class="now-title"><span>${category}</span><span class="expand-arrow" id="expand-arrow">▲</span></p>
     <div class="now-details"><div class="now-row"><span class="v" style="width:100%">${detail}</span></div></div>`;
-
+ 
   panel.onclick = () => panel.classList.toggle('expanded');
 }
-
+ 
 function render(){
   const container = document.getElementById('weeks');
   container.innerHTML = '';
-
+ 
   let totalTrackable = 0, totalDone = 0;
   const today = todayStr();
-
+ 
   const planStart = DATA[0].days[0].date;
   const planEnd = DATA[DATA.length-1].days[DATA[DATA.length-1].days.length-1].date;
   let targetWeekNum;
   if(today < planStart) targetWeekNum = DATA[0].w;
   else if(today > planEnd) targetWeekNum = DATA[DATA.length-1].w;
   else targetWeekNum = null; // will be determined per-week below
-
+ 
   DATA.forEach(week => {
     const weekEl = document.createElement('div');
     weekEl.className = 'week';
-
+ 
     const lastDate = week.days[week.days.length-1].date;
     const isWeekPast = lastDate < today;
-
+ 
     const trackableDays = week.days.filter(d => d.type !== 'rest' && d.type !== 'bonus');
     const doneCount = trackableDays.filter(d => completed[d.date]).length;
     const weekFullyDone = trackableDays.length > 0 && doneCount === trackableDays.length;
-
+ 
     if(isWeekPast){
       weekEl.classList.add(weekFullyDone ? 'week-complete' : 'week-incomplete');
     }
-
+ 
     const head = document.createElement('div');
     head.className = 'week-head';
     const lockBadge = isWeekPast ? '<span class="lock-icon">🔒</span>' : '';
     head.innerHTML = `<span class="week-title">שבוע ${week.w}${lockBadge}</span><span class="week-range">${week.range}</span>`;
     weekEl.appendChild(head);
-
+ 
     const body = document.createElement('div');
     body.className = 'week-body';
     const lastDateInWeek = week.days[week.days.length-1].date;
     const firstDateInWeek = week.days[0].date;
     const isThisWeekCurrent = targetWeekNum ? week.w === targetWeekNum : (today >= firstDateInWeek && today <= lastDateInWeek);
     if(!isThisWeekCurrent) body.classList.add('collapsed');
-
+ 
     week.days.forEach(item => {
       const state = dayState(item);
       if(item.type !== 'rest' && item.type !== 'bonus'){
         totalTrackable++;
         if(state === 'done') totalDone++;
       }
-
+ 
       const row = document.createElement('div');
       row.className = `day ${state}`;
       if(isWeekPast && item.type !== 'rest') row.classList.add('locked');
-
+ 
       const cb = document.createElement('div');
       cb.className = 'checkbox';
       cb.textContent = state === 'done' ? '✓' : '';
@@ -459,26 +462,26 @@ function render(){
         cb.onclick = () => toggle(item.date);
       }
       row.appendChild(cb);
-
+ 
       const main = document.createElement('div');
       main.className = 'day-main';
       main.innerHTML = `<div class="date">${item.date.split('-').reverse().slice(0,2).join('.')} · ${item.day}</div>
                          <div class="activity">${item.act}</div>
                          ${getDisplayDetail(item) ? `<div class="detail">${getDisplayDetail(item)}</div>` : ''}`;
       row.appendChild(main);
-
+ 
       body.appendChild(row);
     });
-
+ 
     weekEl.appendChild(body);
     container.appendChild(weekEl);
-
+ 
     head.onclick = () => body.classList.toggle('collapsed');
   });
-
+ 
   document.getElementById('stat-done').textContent = `${totalDone}/${totalTrackable}`;
   document.getElementById('stat-pct').textContent = totalTrackable ? Math.round((totalDone/totalTrackable)*100) + '%' : '0%';
-
+ 
   // Achievements: total completed workouts (never resets, only grows) + next milestone badge
   const MILESTONES = [
     {n:10, emoji:'🔥'},
@@ -494,30 +497,30 @@ function render(){
     if(totalCompletedAll >= m.n) currentBadge = m.emoji;
     if(nextMilestone === null && totalCompletedAll < m.n) nextMilestone = m;
   });
-
+ 
   document.getElementById('stat-achieve').textContent = `${currentBadge ? currentBadge + ' ' : ''}${totalCompletedAll}`;
   document.getElementById('stat-achieve-label').textContent = nextMilestone
     ? `עוד ${nextMilestone.n - totalCompletedAll} ל-${nextMilestone.emoji} (${nextMilestone.n})`
     : 'כל התגים נפתחו! 🎉';
-
+ 
   renderNowPanel();
 }
-
+ 
 function applyTheme(theme){
   document.documentElement.setAttribute('data-theme', theme);
   document.getElementById('themeToggle').textContent = theme === 'light' ? '☀️' : '🌙';
   localStorage.setItem('theme', theme);
 }
-
+ 
 function toggleTheme(){
   const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
   applyTheme(current === 'light' ? 'dark' : 'light');
 }
-
+ 
 applyTheme(localStorage.getItem('theme') || 'dark');
-
+ 
 loadState();
-
+ 
 if('serviceWorker' in navigator){
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('service-worker.js').catch(err => console.error('SW registration failed', err));
@@ -526,3 +529,4 @@ if('serviceWorker' in navigator){
 </script>
 </body>
 </html>
+ 
