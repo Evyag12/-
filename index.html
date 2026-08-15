@@ -1,3 +1,4 @@
+
 /
 Index · HTML
 <!DOCTYPE html>
@@ -222,6 +223,45 @@ Index · HTML
     font-family:'JetBrains Mono',monospace; font-size:12px; cursor:pointer;
   }
   .add-exercise-btn:hover{ border-color:var(--brass); color:var(--brass); }
+ 
+  .exercise-card{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:11px 12px; border:1px solid var(--line); margin-bottom:6px;
+    background:var(--bg-raised);
+  }
+  .exercise-name{ font-size:13px; color:var(--chalk); }
+  .exercise-delete{
+    color:var(--chalk-dim); font-size:16px; cursor:pointer; padding:2px 8px;
+    line-height:1;
+  }
+  .exercise-delete:hover{ color:#c0554a; }
+ 
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,0.6);
+    display:flex; align-items:center; justify-content:center; z-index:300;
+    padding:20px; box-sizing:border-box;
+  }
+  .modal-box{
+    background:var(--bg-raised); border:1px solid var(--brass);
+    padding:22px; width:100%; max-width:360px; border-radius:4px;
+  }
+  .modal-title{
+    font-family:'Oswald',sans-serif; font-size:16px; color:var(--chalk);
+    margin:0 0 14px;
+  }
+  .modal-label{ font-size:11px; color:var(--chalk-dim); margin:10px 0 4px; display:block; }
+  .modal-box input, .modal-box select{
+    width:100%; box-sizing:border-box; padding:9px 10px; background:var(--bg);
+    border:1px solid var(--line); color:var(--chalk);
+    font-family:'JetBrains Mono',monospace; font-size:13px;
+  }
+  .modal-actions{ display:flex; gap:8px; margin-top:18px; }
+  .modal-btn{
+    flex:1; padding:11px; cursor:pointer; border:none;
+    font-family:'JetBrains Mono',monospace; font-size:12px;
+  }
+  .modal-btn.primary{ background:var(--brass); color:#1c1b19; font-weight:600; }
+  .modal-btn.secondary{ background:transparent; border:1px solid var(--line); color:var(--chalk-dim); }
 </style>
 </head>
 <body>
@@ -642,15 +682,152 @@ function setupPages(){
     container.appendChild(document.getElementById(p.id));
   });
  
-  renderMusclePlaceholders();
+  renderAllExercisePages();
   setupDots();
 }
  
-function renderMusclePlaceholders(){
-  ['legs','back','chest'].forEach(muscle => {
-    const body = document.getElementById('muscle-body-' + muscle);
-    body.innerHTML = '<div class="exercise-empty">עדיין אין כאן תרגילים - נוסיף בשלב הבא</div>';
+const MUSCLE_CATEGORIES = {
+  legs:  ['רגליים','ישבן'],
+  back:  ['גב','יד קדמית','אמות'],
+  chest: ['חזה','כתפיים','יד אחורית']
+};
+ 
+let exercisesData = loadExercises();
+ 
+const SEED_EXERCISES = {
+  legs: [
+    {name:"כפיפת ברך בישיבה", category:"רגליים", weight:54, reps:10},
+    {name:"לחיצת רגליים", category:"רגליים", weight:114, reps:5},
+    {name:"פשיטת ברך", category:"רגליים", weight:79, reps:5},
+    {name:"לחיצת רגליים (תאומים)", category:"רגליים", weight:45, reps:10}
+  ],
+  chest: [
+    {name:"כתף אחורית/חזה", category:"כתפיים", weight:50, reps:7},
+    {name:"לחיצת חזה", category:"חזה", weight:47, reps:7},
+    {name:"לחיצת כתפיים", category:"כתפיים", weight:45, reps:10},
+    {name:"תלת ראשי", category:"יד אחורית", weight:29, reps:7},
+    {name:"יד אחורית בפולי עליון", category:"יד אחורית", weight:32, reps:null}
+  ],
+  back: [
+    {name:"משיכה מלמעלה", category:"גב", weight:75, reps:5},
+    {name:"חתירה עם תומך חזה", category:"גב", weight:47, reps:7},
+    {name:"דו ראשי", category:"יד קדמית", weight:29, reps:null},
+    {name:"דו ראשי (אמות)", category:"אמות", weight:16, reps:5},
+    {name:"הרמת משקולות במכונה (יד קדמית)", category:"יד קדמית", weight:36, reps:null},
+    {name:"הרמת משקולות במכונה (אמות)", category:"אמות", weight:27, reps:null}
+  ]
+};
+ 
+function seedExercises(){
+  let seeded = false;
+  Object.keys(SEED_EXERCISES).forEach(muscle => {
+    if(!exercisesData[muscle]) exercisesData[muscle] = [];
+    SEED_EXERCISES[muscle].forEach(seed => {
+      const exists = exercisesData[muscle].some(ex => ex.name === seed.name);
+      if(!exists){
+        exercisesData[muscle].push({
+          id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+          name: seed.name, category: seed.category,
+          weight: seed.weight, reps: seed.reps, history: []
+        });
+        seeded = true;
+      }
+    });
   });
+  if(seeded) saveExercises();
+}
+seedExercises();
+ 
+function loadExercises(){
+  try{
+    const raw = localStorage.getItem('exercises-data');
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return { legs:[], back:[], chest:[] };
+}
+ 
+function saveExercises(){
+  try{
+    localStorage.setItem('exercises-data', JSON.stringify(exercisesData));
+  }catch(e){ console.error('Storage error', e); }
+}
+ 
+function renderExercisePage(muscle){
+  const body = document.getElementById('muscle-body-' + muscle);
+  const list = exercisesData[muscle] || [];
+  const categories = MUSCLE_CATEGORIES[muscle];
+ 
+  let html = '';
+  categories.forEach(cat => {
+    const items = list.filter(ex => ex.category === cat);
+    html += `<div class="muscle-section">
+      <div class="muscle-section-title">${cat}</div>`;
+    if(items.length === 0){
+      html += `<div class="exercise-empty">אין עדיין תרגילים ב${cat}</div>`;
+    } else {
+      items.forEach(ex => {
+        html += `<div class="exercise-card">
+          <span class="exercise-name">${ex.name}</span>
+          <span class="exercise-delete" onclick="deleteExercise('${muscle}','${ex.id}')">✕</span>
+        </div>`;
+      });
+    }
+    html += `</div>`;
+  });
+  html += `<button class="add-exercise-btn" onclick="openAddExerciseModal('${muscle}')">+ הוסף תרגיל</button>`;
+ 
+  body.innerHTML = html;
+}
+ 
+function renderAllExercisePages(){
+  Object.keys(MUSCLE_CATEGORIES).forEach(renderExercisePage);
+}
+ 
+function openAddExerciseModal(muscle){
+  const categories = MUSCLE_CATEGORIES[muscle];
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.innerHTML = `
+    <div class="modal-box">
+      <p class="modal-title">הוספת תרגיל</p>
+      <label class="modal-label">שם התרגיל</label>
+      <input type="text" id="newExerciseName" placeholder="למשל: סקוואט">
+      <label class="modal-label">קטגוריה</label>
+      <select id="newExerciseCategory">
+        ${categories.map(c => `<option value="${c}">${c}</option>`).join('')}
+      </select>
+      <div class="modal-actions">
+        <button class="modal-btn secondary" id="cancelAddExercise">ביטול</button>
+        <button class="modal-btn primary" id="confirmAddExercise">הוסף</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+ 
+  document.getElementById('newExerciseName').focus();
+ 
+  document.getElementById('cancelAddExercise').onclick = () => overlay.remove();
+  overlay.addEventListener('click', e => { if(e.target === overlay) overlay.remove(); });
+ 
+  document.getElementById('confirmAddExercise').onclick = () => {
+    const name = document.getElementById('newExerciseName').value.trim();
+    const category = document.getElementById('newExerciseCategory').value;
+    if(!name) return;
+    if(!exercisesData[muscle]) exercisesData[muscle] = [];
+    exercisesData[muscle].push({
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+      name, category, weight:null, reps:null, history:[]
+    });
+    saveExercises();
+    renderExercisePage(muscle);
+    overlay.remove();
+  };
+}
+ 
+function deleteExercise(muscle, id){
+  if(!confirm('למחוק את התרגיל?')) return;
+  exercisesData[muscle] = (exercisesData[muscle] || []).filter(ex => ex.id !== id);
+  saveExercises();
+  renderExercisePage(muscle);
 }
  
 function setupDots(){
