@@ -1,25 +1,4 @@
-
 /
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Index · HTML
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
@@ -191,6 +170,8 @@ Index · HTML
     display:flex;
     align-items:flex-start;
     overflow-x:auto;
+    overflow-y:hidden;
+    transition:height 0.2s ease;
     scroll-snap-type:x mandatory;
     direction:ltr;
     -webkit-overflow-scrolling:touch;
@@ -209,6 +190,7 @@ Index · HTML
   .dots{
     display:flex; justify-content:center; gap:7px;
     margin:14px 0 18px;
+    direction:ltr;
   }
   .dot{
     width:7px; height:7px; border-radius:50%;
@@ -683,16 +665,36 @@ function setupDots(){
     dotsEl.appendChild(dot);
   });
  
+  function currentIndex(){
+    return Math.max(0, Math.min(pages.length - 1, Math.round(container.scrollLeft / container.clientWidth)));
+  }
+ 
+  function syncHeight(){
+    const idx = currentIndex();
+    const active = pages[idx];
+    if(active) container.style.height = active.scrollHeight + 'px';
+  }
+ 
   let ticking = false;
   container.addEventListener('scroll', () => {
     if(ticking) return;
     ticking = true;
     requestAnimationFrame(() => {
-      const idx = Math.round(container.scrollLeft / container.clientWidth);
+      const idx = currentIndex();
       Array.from(dotsEl.children).forEach((d,i) => d.classList.toggle('active', i === idx));
+      syncHeight();
       ticking = false;
     });
   });
+ 
+  // Re-measure the active page's height whenever its content changes
+  // (e.g. expanding/collapsing a week, adding an exercise)
+  const resizeObserver = new ResizeObserver(() => syncHeight());
+  pages.forEach(p => resizeObserver.observe(p));
+ 
+  window.addEventListener('resize', syncHeight);
+ 
+  syncHeight();
 }
  
 if('serviceWorker' in navigator){
