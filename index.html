@@ -1,4 +1,24 @@
 
+/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Index · HTML
 <!DOCTYPE html>
@@ -145,16 +165,16 @@ Index · HTML
     transition:padding 0.2s;
   }
   .now-panel .eyebrow2{
-    font-size:9px; letter-spacing:2px; color:var(--brass); text-transform:uppercase; margin:0 0 4px;
+    font-size:9px; letter-spacing:2px; color:#b6905c; text-transform:uppercase; margin:0 0 4px;
   }
   .now-panel .now-title{
-    font-family:'Oswald',sans-serif; font-size:15px; font-weight:600; color:var(--chalk); margin:0;
+    font-family:'Oswald',sans-serif; font-size:15px; font-weight:600; color:#ede9e0; margin:0;
     display:flex; justify-content:space-between; align-items:center;
   }
-  .now-panel .now-title .expand-arrow{ font-size:11px; color:var(--chalk-dim); }
-  .now-row{ display:flex; justify-content:space-between; padding:6px 0; border-top:1px solid var(--line); font-size:12px; }
-  .now-row .k{ color:var(--chalk-dim); }
-  .now-row .v{ color:var(--chalk); font-weight:600; }
+  .now-panel .now-title .expand-arrow{ font-size:11px; color:#a8a39a; }
+  .now-row{ display:flex; justify-content:space-between; padding:6px 0; border-top:1px solid rgba(237,233,224,0.15); font-size:12px; }
+  .now-row .k{ color:#a8a39a; }
+  .now-row .v{ color:#ede9e0; font-weight:600; }
   .now-panel .now-details{ display:none; margin-top:8px; }
   .now-panel.expanded .now-details{ display:block; }
  
@@ -169,6 +189,7 @@ Index · HTML
   /* Swipeable pages */
   .pages-container{
     display:flex;
+    align-items:flex-start;
     overflow-x:auto;
     scroll-snap-type:x mandatory;
     direction:ltr;
