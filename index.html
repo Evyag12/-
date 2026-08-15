@@ -1,4 +1,5 @@
 
+
 Index · HTML
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
@@ -164,6 +165,57 @@ Index · HTML
   .week.week-incomplete .week-title{ color:var(--iron-red); }
   .day.locked .checkbox{ cursor:default; opacity:0.6; }
   .lock-icon{ font-size:10px; color:var(--chalk-dim); margin-inline-start:4px; }
+ 
+  /* Swipeable pages */
+  .pages-container{
+    display:flex;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    direction:ltr;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .pages-container::-webkit-scrollbar{ display:none; }
+  .page{
+    flex:0 0 100%;
+    max-width:100%;
+    scroll-snap-align:start;
+    direction:rtl;
+    box-sizing:border-box;
+  }
+  .page-inner{ max-width:640px; margin:0 auto; padding:0 18px 60px; }
+ 
+  .dots{
+    display:flex; justify-content:center; gap:7px;
+    margin:14px 0 18px;
+  }
+  .dot{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--line); transition:background 0.2s, transform 0.2s;
+  }
+  .dot.active{ background:var(--brass); transform:scale(1.3); }
+ 
+  .muscle-page-title{
+    font-family:'Oswald',sans-serif; font-weight:700; font-size:22px;
+    margin:0 0 4px; color:var(--chalk);
+  }
+  .muscle-page-sub{ color:var(--chalk-dim); font-size:12px; margin:0 0 20px; }
+ 
+  .muscle-section{ margin-bottom:22px; }
+  .muscle-section-title{
+    font-family:'Oswald',sans-serif; font-size:13px; letter-spacing:1px;
+    color:var(--brass); text-transform:uppercase; margin:0 0 8px;
+  }
+  .exercise-empty{
+    font-size:12px; color:var(--chalk-dim); padding:16px 0; text-align:center;
+    border:1px dashed var(--line);
+  }
+  .add-exercise-btn{
+    width:100%; margin-top:6px; padding:10px; background:var(--bg-raised);
+    border:1px dashed var(--line); color:var(--chalk-dim);
+    font-family:'JetBrains Mono',monospace; font-size:12px; cursor:pointer;
+  }
+  .add-exercise-btn:hover{ border-color:var(--brass); color:var(--brass); }
 </style>
 </head>
 <body>
@@ -177,133 +229,166 @@ Index · HTML
  
   <div class="now-panel" id="now-panel"></div>
  
-  <div class="stats">
-    <div class="stat">
-      <div class="n" id="stat-done">0</div>
-      <div class="l">בוצעו</div>
+  <div class="dots" id="dots"></div>
+ 
+  <div class="pages-container" id="pagesContainer">
+ 
+    <div class="page" id="page-board">
+      <div class="page-inner">
+        <div class="stats">
+          <div class="stat">
+            <div class="n" id="stat-done">0</div>
+            <div class="l">בוצעו</div>
+          </div>
+          <div class="stat">
+            <div class="n" id="stat-pct">0%</div>
+            <div class="l">אחוז השלמה</div>
+          </div>
+          <div class="stat">
+            <div class="n" id="stat-achieve">0</div>
+            <div class="l" id="stat-achieve-label">אימונים שהושלמו</div>
+          </div>
+        </div>
+ 
+        <div id="weeks"></div>
+ 
+        <p class="footnote">לחץ על הריבוע כדי לסמן אימון כבוצע · ירוק = בוצע · אדום = יום שעבר בלי סימון · שבועות שעברו נעולים · בשבתות יש פעילות ספורטיבית 🏅 בונוס - לא משפיעה על ציון השבוע, אבל מקדמת את ההישגים · המידע נשמר אוטומטית</p>
+      </div>
     </div>
-    <div class="stat">
-      <div class="n" id="stat-pct">0%</div>
-      <div class="l">אחוז השלמה</div>
+ 
+    <div class="page" id="page-legs" data-muscle="legs">
+      <div class="page-inner">
+        <h2 class="muscle-page-title">רגליים + ישבן</h2>
+        <p class="muscle-page-sub">התרגילים שלך לקבוצת השרירים הזו</p>
+        <div class="muscle-page-body" id="muscle-body-legs"></div>
+      </div>
     </div>
-    <div class="stat">
-      <div class="n" id="stat-achieve">0</div>
-      <div class="l" id="stat-achieve-label">אימונים שהושלמו</div>
+ 
+    <div class="page" id="page-back" data-muscle="back">
+      <div class="page-inner">
+        <h2 class="muscle-page-title">גב + יד קדמית + אמות</h2>
+        <p class="muscle-page-sub">התרגילים שלך לקבוצת השרירים הזו</p>
+        <div class="muscle-page-body" id="muscle-body-back"></div>
+      </div>
     </div>
+ 
+    <div class="page" id="page-chest" data-muscle="chest">
+      <div class="page-inner">
+        <h2 class="muscle-page-title">חזה + כתפיים + יד אחורית</h2>
+        <p class="muscle-page-sub">התרגילים שלך לקבוצת השרירים הזו</p>
+        <div class="muscle-page-body" id="muscle-body-chest"></div>
+      </div>
+    </div>
+ 
   </div>
- 
-  <div id="weeks"></div>
- 
-  <p class="footnote">לחץ על הריבוע כדי לסמן אימון כבוצע · ירוק = בוצע · אדום = יום שעבר בלי סימון · שבועות שעברו נעולים · בשבתות יש פעילות ספורטיבית 🏅 בונוס - לא משפיעה על ציון השבוע, אבל מקדמת את ההישגים · המידע נשמר אוטומטית</p>
-</div>
  
 <script>
 const DATA = [
   {w:1, range:"12.7–18.7", days:[
-    {date:"2026-07-12", day:"ראשון", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן"},
+    {date:"2026-07-12", day:"ראשון", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן", muscle:"legs"},
     {date:"2026-07-13", day:"שני", type:"run", act:"ריצה ראשית", det:"5 ק\"מ - קצב קל"},
-    {date:"2026-07-14", day:"שלישי", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות"},
+    {date:"2026-07-14", day:"שלישי", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות", muscle:"back"},
     {date:"2026-07-15", day:"רביעי", type:"rest", act:"מנוחה מריצה", det:"חצי גמר מונדיאל - עברה לחמישי"},
-    {date:"2026-07-16", day:"חמישי", type:"double", act:"חדכ 16:00 + ריצה 19:00", det:"חזה+כתפיים+יד אחורית | ריצה 4 ק\"מ קל"},
+    {date:"2026-07-16", day:"חמישי", type:"double", act:"חדכ 16:00 + ריצה 19:00", det:"חזה+כתפיים+יד אחורית | ריצה 4 ק\"מ קל", muscle:"chest"},
     {date:"2026-07-17", day:"שישי", type:"rest", act:"מנוחה", det:""},
     {date:"2026-07-18", day:"שבת", type:"rest", act:"מנוחה", det:""},
   ]},
   {w:2, range:"19.7–25.7", days:[
-    {date:"2026-07-19", day:"ראשון", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות"},
-    {date:"2026-07-20", day:"שני", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית"},
+    {date:"2026-07-19", day:"ראשון", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות", muscle:"back"},
+    {date:"2026-07-20", day:"שני", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית", muscle:"chest"},
     {date:"2026-07-21", day:"שלישי", type:"run", act:"ריצה ראשית", det:"6 ק\"מ - קצב קל"},
-    {date:"2026-07-22", day:"רביעי", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן"},
+    {date:"2026-07-22", day:"רביעי", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן", muscle:"legs"},
     {date:"2026-07-23", day:"חמישי", type:"run", act:"ריצה שנייה", det:"4 ק\"מ - קצב קל"},
     {date:"2026-07-24", day:"שישי", type:"rest", act:"מנוחה", det:""},
     {date:"2026-07-25", day:"שבת", type:"bonus", act:"פעילות ספורטיבית 🏅", det:"30 דקות - לבחירתך"},
   ]},
   {w:3, range:"26.7–1.8", days:[
     {date:"2026-07-26", day:"ראשון", type:"run", act:"ריצה ראשית", det:"7 ק\"מ - קצב קל"},
-    {date:"2026-07-27", day:"שני", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית"},
-    {date:"2026-07-28", day:"שלישי", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן"},
+    {date:"2026-07-27", day:"שני", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית", muscle:"chest"},
+    {date:"2026-07-28", day:"שלישי", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן", muscle:"legs"},
     {date:"2026-07-29", day:"רביעי", type:"run", act:"ריצה שנייה", det:"5 ק\"מ - קצב קל"},
-    {date:"2026-07-30", day:"חמישי", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות"},
+    {date:"2026-07-30", day:"חמישי", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות", muscle:"back"},
     {date:"2026-07-31", day:"שישי", type:"rest", act:"מנוחה", det:""},
     {date:"2026-08-01", day:"שבת", type:"bonus", act:"פעילות ספורטיבית 🏅", det:"30 דקות - לבחירתך"},
   ]},
   {w:4, range:"2.8–8.8", days:[
-    {date:"2026-08-02", day:"ראשון", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן"},
+    {date:"2026-08-02", day:"ראשון", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן", muscle:"legs"},
     {date:"2026-08-03", day:"שני", type:"run", act:"ריצה ראשית", det:"5 ק\"מ - קצב קל (שבוע הקלה)"},
-    {date:"2026-08-04", day:"שלישי", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות"},
+    {date:"2026-08-04", day:"שלישי", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות", muscle:"back"},
     {date:"2026-08-05", day:"רביעי", type:"run", act:"ריצה שנייה", det:"4 ק\"מ - קצב קל"},
-    {date:"2026-08-06", day:"חמישי", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית"},
+    {date:"2026-08-06", day:"חמישי", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית", muscle:"chest"},
     {date:"2026-08-07", day:"שישי", type:"rest", act:"מנוחה", det:""},
     {date:"2026-08-08", day:"שבת", type:"bonus", act:"פעילות ספורטיבית 🏅", det:"30 דקות - לבחירתך"},
   ]},
   {w:5, range:"9.8–15.8", days:[
-    {date:"2026-08-09", day:"ראשון", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות"},
-    {date:"2026-08-10", day:"שני", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית"},
+    {date:"2026-08-09", day:"ראשון", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות", muscle:"back"},
+    {date:"2026-08-10", day:"שני", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית", muscle:"chest"},
     {date:"2026-08-11", day:"שלישי", type:"run", act:"ריצה ראשית", det:"7 ק\"מ - קצב קל"},
-    {date:"2026-08-12", day:"רביעי", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן"},
+    {date:"2026-08-12", day:"רביעי", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן", muscle:"legs"},
     {date:"2026-08-13", day:"חמישי", type:"run", act:"ריצה שנייה", det:"6 ק\"מ - קצב בינוני-מהיר (טמפו)"},
     {date:"2026-08-14", day:"שישי", type:"rest", act:"מנוחה", det:""},
     {date:"2026-08-15", day:"שבת", type:"bonus", act:"פעילות ספורטיבית 🏅", det:"30 דקות - לבחירתך"},
   ]},
   {w:6, range:"16.8–22.8", days:[
     {date:"2026-08-16", day:"ראשון", type:"run", act:"ריצה ראשית", det:"8 ק\"מ - קצב קל"},
-    {date:"2026-08-17", day:"שני", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית"},
-    {date:"2026-08-18", day:"שלישי", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן"},
+    {date:"2026-08-17", day:"שני", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית", muscle:"chest"},
+    {date:"2026-08-18", day:"שלישי", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן", muscle:"legs"},
     {date:"2026-08-19", day:"רביעי", type:"home", act:"אימון בית", det:"45 דק' - גוף כובד"},
-    {date:"2026-08-20", day:"חמישי", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות"},
+    {date:"2026-08-20", day:"חמישי", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות", muscle:"back"},
     {date:"2026-08-21", day:"שישי", type:"rest", act:"מנוחה", det:""},
     {date:"2026-08-22", day:"שבת", type:"bonus", act:"פעילות ספורטיבית 🏅", det:"30 דקות - לבחירתך"},
   ]},
   {w:7, range:"23.8–29.8", days:[
-    {date:"2026-08-23", day:"ראשון", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן"},
+    {date:"2026-08-23", day:"ראשון", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן", muscle:"legs"},
     {date:"2026-08-24", day:"שני", type:"run", act:"ריצה ראשית", det:"9 ק\"מ - קצב קל"},
-    {date:"2026-08-25", day:"שלישי", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות"},
+    {date:"2026-08-25", day:"שלישי", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות", muscle:"back"},
     {date:"2026-08-26", day:"רביעי", type:"home", act:"אימון בית", det:"45 דק' - גוף כובד"},
-    {date:"2026-08-27", day:"חמישי", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית"},
+    {date:"2026-08-27", day:"חמישי", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית", muscle:"chest"},
     {date:"2026-08-28", day:"שישי", type:"rest", act:"מנוחה", det:""},
     {date:"2026-08-29", day:"שבת", type:"bonus", act:"פעילות ספורטיבית 🏅", det:"30 דקות - לבחירתך"},
   ]},
   {w:8, range:"30.8–5.9", days:[
-    {date:"2026-08-30", day:"ראשון", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות (שבוע הקלה)"},
-    {date:"2026-08-31", day:"שני", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית"},
+    {date:"2026-08-30", day:"ראשון", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות (שבוע הקלה)", muscle:"back"},
+    {date:"2026-08-31", day:"שני", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית", muscle:"chest"},
     {date:"2026-09-01", day:"שלישי", type:"run", act:"ריצה ראשית", det:"6 ק\"מ - קצב קל"},
-    {date:"2026-09-02", day:"רביעי", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן"},
+    {date:"2026-09-02", day:"רביעי", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן", muscle:"legs"},
     {date:"2026-09-03", day:"חמישי", type:"home", act:"אימון בית", det:"45 דק' - גוף כובד"},
     {date:"2026-09-04", day:"שישי", type:"rest", act:"מנוחה", det:""},
     {date:"2026-09-05", day:"שבת", type:"bonus", act:"פעילות ספורטיבית 🏅", det:"30 דקות - לבחירתך"},
   ]},
   {w:9, range:"6.9–12.9", days:[
     {date:"2026-09-06", day:"ראשון", type:"run", act:"ריצה ראשית", det:"10 ק\"מ - קצב קל"},
-    {date:"2026-09-07", day:"שני", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית"},
-    {date:"2026-09-08", day:"שלישי", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן"},
+    {date:"2026-09-07", day:"שני", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית", muscle:"chest"},
+    {date:"2026-09-08", day:"שלישי", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן", muscle:"legs"},
     {date:"2026-09-09", day:"רביעי", type:"home", act:"אימון בית", det:"45 דק' - גוף כובד"},
-    {date:"2026-09-10", day:"חמישי", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות"},
+    {date:"2026-09-10", day:"חמישי", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות", muscle:"back"},
     {date:"2026-09-11", day:"שישי", type:"rest", act:"מנוחה", det:""},
     {date:"2026-09-12", day:"שבת", type:"bonus", act:"פעילות ספורטיבית 🏅", det:"30 דקות - לבחירתך"},
   ]},
   {w:10, range:"13.9–19.9", days:[
-    {date:"2026-09-13", day:"ראשון", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן"},
+    {date:"2026-09-13", day:"ראשון", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן", muscle:"legs"},
     {date:"2026-09-14", day:"שני", type:"run", act:"ריצה ראשית", det:"12 ק\"מ - קצב קל"},
-    {date:"2026-09-15", day:"שלישי", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות"},
+    {date:"2026-09-15", day:"שלישי", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות", muscle:"back"},
     {date:"2026-09-16", day:"רביעי", type:"home", act:"אימון בית", det:"45 דק' - גוף כובד"},
-    {date:"2026-09-17", day:"חמישי", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית"},
+    {date:"2026-09-17", day:"חמישי", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית", muscle:"chest"},
     {date:"2026-09-18", day:"שישי", type:"rest", act:"מנוחה", det:""},
     {date:"2026-09-19", day:"שבת", type:"bonus", act:"פעילות ספורטיבית 🏅", det:"30 דקות - לבחירתך"},
   ]},
   {w:11, range:"20.9–26.9", days:[
-    {date:"2026-09-20", day:"ראשון", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות (טייפר)"},
-    {date:"2026-09-21", day:"שני", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית"},
+    {date:"2026-09-20", day:"ראשון", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות (טייפר)", muscle:"back"},
+    {date:"2026-09-21", day:"שני", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית", muscle:"chest"},
     {date:"2026-09-22", day:"שלישי", type:"run", act:"ריצה ראשית", det:"8 ק\"מ - קצב קל"},
-    {date:"2026-09-23", day:"רביעי", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן"},
+    {date:"2026-09-23", day:"רביעי", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן", muscle:"legs"},
     {date:"2026-09-24", day:"חמישי", type:"home", act:"אימון בית", det:"45 דק' - גוף כובד"},
     {date:"2026-09-25", day:"שישי", type:"rest", act:"מנוחה", det:""},
     {date:"2026-09-26", day:"שבת", type:"bonus", act:"פעילות ספורטיבית 🏅", det:"30 דקות - לבחירתך"},
   ]},
   {w:12, range:"27.9–1.10", days:[
     {date:"2026-09-27", day:"ראשון", type:"run", act:"ריצה ראשית - היעד! 🎯", det:"15 ק\"מ - קצב קל"},
-    {date:"2026-09-28", day:"שני", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית"},
-    {date:"2026-09-29", day:"שלישי", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן"},
+    {date:"2026-09-28", day:"שני", type:"gym", act:"חדר כושר", det:"60 דק' - חזה + כתפיים + יד אחורית", muscle:"chest"},
+    {date:"2026-09-29", day:"שלישי", type:"gym", act:"חדר כושר", det:"60 דק' - רגליים + ישבן", muscle:"legs"},
     {date:"2026-09-30", day:"רביעי", type:"home", act:"אימון בית", det:"45 דק' - גוף כובד"},
-    {date:"2026-10-01", day:"חמישי", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות"},
+    {date:"2026-10-01", day:"חמישי", type:"gym", act:"חדר כושר", det:"60 דק' - גב + יד קדמית + אמות", muscle:"back"},
   ]},
 ];
  
@@ -520,6 +605,74 @@ function toggleTheme(){
 applyTheme(localStorage.getItem('theme') || 'dark');
  
 loadState();
+setupPages();
+ 
+function getNextMuscleDate(muscle){
+  const today = todayStr();
+  let earliest = null;
+  DATA.forEach(week => {
+    week.days.forEach(day => {
+      if(day.muscle === muscle && day.date >= today){
+        if(!earliest || day.date < earliest) earliest = day.date;
+      }
+    });
+  });
+  return earliest || '9999-99-99'; // no upcoming session -> push to the end
+}
+ 
+function setupPages(){
+  const container = document.getElementById('pagesContainer');
+  const musclePages = [
+    { id:'page-legs', muscle:'legs' },
+    { id:'page-back', muscle:'back' },
+    { id:'page-chest', muscle:'chest' }
+  ];
+ 
+  musclePages.forEach(p => p.nextDate = getNextMuscleDate(p.muscle));
+  musclePages.sort((a,b) => a.nextDate.localeCompare(b.nextDate));
+ 
+  // Reorder: board page stays first, then muscle pages by soonest date
+  musclePages.forEach(p => {
+    container.appendChild(document.getElementById(p.id));
+  });
+ 
+  renderMusclePlaceholders();
+  setupDots();
+}
+ 
+function renderMusclePlaceholders(){
+  ['legs','back','chest'].forEach(muscle => {
+    const body = document.getElementById('muscle-body-' + muscle);
+    body.innerHTML = '<div class="exercise-empty">עדיין אין כאן תרגילים - נוסיף בשלב הבא</div>';
+  });
+}
+ 
+function setupDots(){
+  const container = document.getElementById('pagesContainer');
+  const dotsEl = document.getElementById('dots');
+  const pages = Array.from(container.children);
+ 
+  dotsEl.innerHTML = '';
+  pages.forEach((page, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => {
+      container.scrollTo({ left: page.offsetLeft, behavior:'smooth' });
+    });
+    dotsEl.appendChild(dot);
+  });
+ 
+  let ticking = false;
+  container.addEventListener('scroll', () => {
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const idx = Math.round(container.scrollLeft / container.clientWidth);
+      Array.from(dotsEl.children).forEach((d,i) => d.classList.toggle('active', i === idx));
+      ticking = false;
+    });
+  });
+}
  
 if('serviceWorker' in navigator){
   window.addEventListener('load', () => {
