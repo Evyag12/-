@@ -171,7 +171,6 @@ Index · HTML
     align-items:flex-start;
     overflow-x:auto;
     overflow-y:hidden;
-    transition:height 0.2s ease;
     scroll-snap-type:x mandatory;
     direction:ltr;
     -webkit-overflow-scrolling:touch;
@@ -181,7 +180,11 @@ Index · HTML
   .page{
     flex:0 0 100%;
     max-width:100%;
+    height:100%;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
     scroll-snap-align:start;
+    scroll-snap-stop:always;
     direction:rtl;
     box-sizing:border-box;
   }
@@ -669,12 +672,6 @@ function setupDots(){
     return Math.max(0, Math.min(pages.length - 1, Math.round(container.scrollLeft / container.clientWidth)));
   }
  
-  function syncHeight(){
-    const idx = currentIndex();
-    const active = pages[idx];
-    if(active) container.style.height = active.scrollHeight + 'px';
-  }
- 
   let ticking = false;
   container.addEventListener('scroll', () => {
     if(ticking) return;
@@ -682,19 +679,20 @@ function setupDots(){
     requestAnimationFrame(() => {
       const idx = currentIndex();
       Array.from(dotsEl.children).forEach((d,i) => d.classList.toggle('active', i === idx));
-      syncHeight();
       ticking = false;
     });
   });
  
-  // Re-measure the active page's height whenever its content changes
-  // (e.g. expanding/collapsing a week, adding an exercise)
-  const resizeObserver = new ResizeObserver(() => syncHeight());
-  pages.forEach(p => resizeObserver.observe(p));
+  function fitContainerHeight(){
+    const rect = container.getBoundingClientRect();
+    const bottomClearance = 16; // small breathing room above the now-panel area
+    const h = window.innerHeight - rect.top - bottomClearance;
+    container.style.height = Math.max(200, h) + 'px';
+  }
  
-  window.addEventListener('resize', syncHeight);
- 
-  syncHeight();
+  fitContainerHeight();
+  window.addEventListener('resize', fitContainerHeight);
+  window.addEventListener('orientationchange', () => setTimeout(fitContainerHeight, 200));
 }
  
 if('serviceWorker' in navigator){
