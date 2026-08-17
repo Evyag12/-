@@ -281,6 +281,34 @@ Index · HTML
   }
   .modal-btn.primary{ background:var(--brass); color:#1c1b19; font-weight:600; }
   .modal-btn.secondary{ background:transparent; border:1px solid var(--line); color:var(--chalk-dim); }
+
+  /* Active workout mode */
+  .workout-toggle-btn{
+    width:100%; margin:2px 0 18px; padding:11px 16px;
+    border:1px solid var(--brass); background:transparent; color:var(--brass);
+    font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600;
+    letter-spacing:0.5px; cursor:pointer; transition:background 0.15s, color 0.15s;
+  }
+  .workout-toggle-btn:hover{ background:var(--brass); color:#1c1b19; }
+  .workout-toggle-btn.active{ background:var(--moss-green); border-color:var(--moss-green); color:#fff; }
+  .workout-toggle-btn.active:hover{ background:#527650; }
+
+  .workout-badge{
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:10px; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--moss-green); border:1px solid var(--moss-green);
+    padding:4px 9px; margin-bottom:12px; background:var(--moss-green-bg);
+  }
+
+  .muscle-page-body.workout-mode .exercise-card{ border-color:var(--brass); }
+
+  .exercise-actions{ display:flex; align-items:center; gap:6px; flex:none; }
+  .exercise-checkbox{
+    width:22px; height:22px; flex:none; border:2px solid var(--chalk-dim);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    font-size:14px; font-weight:700; color:transparent;
+  }
+  .exercise-checkbox.checked{ border-color:var(--moss-green); background:var(--moss-green); color:#fff; }
 </style>
 </head>
 <body>
@@ -325,6 +353,7 @@ Index · HTML
       <div class="page-inner">
         <h2 class="muscle-page-title">רגליים + ישבן</h2>
         <p class="muscle-page-sub">התרגילים שלך לקבוצת השרירים הזו</p>
+        <button class="workout-toggle-btn" id="workout-toggle-legs" onclick="toggleWorkoutMode('legs')">▶ התחלת אימון</button>
         <div class="muscle-page-body" id="muscle-body-legs"></div>
       </div>
     </div>
@@ -333,6 +362,7 @@ Index · HTML
       <div class="page-inner">
         <h2 class="muscle-page-title">גב + יד קדמית + אמות</h2>
         <p class="muscle-page-sub">התרגילים שלך לקבוצת השרירים הזו</p>
+        <button class="workout-toggle-btn" id="workout-toggle-back" onclick="toggleWorkoutMode('back')">▶ התחלת אימון</button>
         <div class="muscle-page-body" id="muscle-body-back"></div>
       </div>
     </div>
@@ -341,6 +371,7 @@ Index · HTML
       <div class="page-inner">
         <h2 class="muscle-page-title">חזה + כתפיים + יד אחורית</h2>
         <p class="muscle-page-sub">התרגילים שלך לקבוצת השרירים הזו</p>
+        <button class="workout-toggle-btn" id="workout-toggle-chest" onclick="toggleWorkoutMode('chest')">▶ התחלת אימון</button>
         <div class="muscle-page-body" id="muscle-body-chest"></div>
       </div>
     </div>
@@ -668,6 +699,7 @@ function toggleTheme(){
 }
  
 let exercisesData = loadExercises();
+let activeWorkouts = loadActiveWorkouts();
  
 const MUSCLE_CATEGORIES = {
   legs:  ['רגליים','ישבן'],
@@ -770,13 +802,97 @@ function saveExercises(){
     localStorage.setItem('exercises-data', JSON.stringify(exercisesData));
   }catch(e){ console.error('Storage error', e); }
 }
+
+function loadActiveWorkouts(){
+  const defaults = { legs:null, back:null, chest:null };
+  try{
+    const raw = localStorage.getItem('active-workouts');
+    if(raw) return Object.assign(defaults, JSON.parse(raw));
+  }catch(e){}
+  return defaults;
+}
+
+function saveActiveWorkouts(){
+  try{
+    localStorage.setItem('active-workouts', JSON.stringify(activeWorkouts));
+  }catch(e){ console.error('Storage error', e); }
+}
+
+function updateWorkoutButton(muscle){
+  const btn = document.getElementById('workout-toggle-' + muscle);
+  if(!btn) return;
+  const active = !!activeWorkouts[muscle];
+  btn.textContent = active ? '\u23f9 \u05e1\u05d9\u05d5\u05dd \u05d0\u05d9\u05de\u05d5\u05df' : '\u25b6 \u05d4\u05ea\u05d7\u05dc\u05ea \u05d0\u05d9\u05de\u05d5\u05df';
+  btn.classList.toggle('active', active);
+}
+
+function toggleWorkoutMode(muscle){
+  if(activeWorkouts[muscle]){
+    finishWorkout(muscle);
+  } else {
+    activeWorkouts[muscle] = { checkedIds:{}, startedAt: Date.now() };
+    saveActiveWorkouts();
+    renderExercisePage(muscle);
+  }
+}
+
+function finishWorkout(muscle){
+  const today = todayStr();
+  let marked = false;
+  DATA.forEach(week => {
+    week.days.forEach(item => {
+      if(item.muscle === muscle && item.date === today && !completed[item.date]){
+        completed[item.date] = true;
+        marked = true;
+      }
+    });
+  });
+  if(marked) saveState();
+
+  activeWorkouts[muscle] = null;
+  saveActiveWorkouts();
+  renderExercisePage(muscle);
+  render();
+}
+
+function toggleExerciseCheck(muscle, id){
+  const session = activeWorkouts[muscle];
+  if(!session) return;
+  const ex = findExercise(muscle, id);
+  if(!ex) return;
+  if(!ex.history) ex.history = [];
+
+  if(session.checkedIds[id]){
+    const rec = session.checkedIds[id];
+    if(rec.historyIndex != null && ex.history[rec.historyIndex]){
+      ex.history.splice(rec.historyIndex, 1);
+    }
+    delete session.checkedIds[id];
+  } else {
+    let historyIndex = null;
+    if(ex.weight != null){
+      ex.history.push({ date: todayStr(), weight: ex.weight, reps: ex.reps });
+      historyIndex = ex.history.length - 1;
+    }
+    session.checkedIds[id] = { historyIndex };
+  }
+  saveExercises();
+  saveActiveWorkouts();
+  renderExercisePage(muscle);
+}
  
 function renderExercisePage(muscle){
   const body = document.getElementById('muscle-body-' + muscle);
   const list = exercisesData[muscle] || [];
   const categories = MUSCLE_CATEGORIES[muscle];
- 
+  const session = activeWorkouts[muscle];
+
+  body.classList.toggle('workout-mode', !!session);
+
   let html = '';
+  if(session){
+    html += `<div class="workout-badge">🏋️ אימון פעיל</div>`;
+  }
   categories.forEach(cat => {
     const items = list.filter(ex => ex.category === cat);
     html += `<div class="muscle-section">
@@ -788,12 +904,19 @@ function renderExercisePage(muscle){
         const lastInfo = (ex.weight != null)
           ? `${ex.weight} ק"ג${ex.reps != null ? ' × ' + ex.reps + ' חז׳' : ''}`
           : 'אין עדיין נתונים';
+        const isChecked = !!(session && session.checkedIds && session.checkedIds[ex.id]);
+        const checkboxHtml = session
+          ? `<span class="exercise-checkbox ${isChecked ? 'checked' : ''}" onclick="event.stopPropagation(); toggleExerciseCheck('${muscle}','${ex.id}')">${isChecked ? '✓' : ''}</span>`
+          : '';
         html += `<div class="exercise-card" onclick="openLogModal('${muscle}','${ex.id}')">
           <span class="exercise-info">
             <span class="exercise-name">${ex.name}</span>
             <span class="exercise-last">${lastInfo}</span>
           </span>
-          <span class="exercise-menu-btn" onclick="event.stopPropagation(); openExerciseMenu('${muscle}','${ex.id}', event)">⋮</span>
+          <span class="exercise-actions">
+            ${checkboxHtml}
+            <span class="exercise-menu-btn" onclick="event.stopPropagation(); openExerciseMenu('${muscle}','${ex.id}', event)">⋮</span>
+          </span>
         </div>`;
       });
     }
@@ -802,6 +925,7 @@ function renderExercisePage(muscle){
   html += `<button class="add-exercise-btn" onclick="openAddExerciseModal('${muscle}')">+ הוסף תרגיל</button>`;
  
   body.innerHTML = html;
+  updateWorkoutButton(muscle);
 }
  
 function renderAllExercisePages(){
@@ -909,10 +1033,33 @@ function openLogModal(muscle, id){
     const w = parseFloat(document.getElementById('logWeight').value);
     const r = parseInt(document.getElementById('logReps').value, 10);
     if(isNaN(w)) return;
-    ex.weight = w;
-    ex.reps = isNaN(r) ? null : r;
+    const repsVal = isNaN(r) ? null : r;
     if(!ex.history) ex.history = [];
-    ex.history.push({ date: todayStr(), weight: ex.weight, reps: ex.reps });
+
+    const session = activeWorkouts[muscle];
+    if(session){
+      // Active workout: keep the higher weight (never regress the PB),
+      // and every save during a session counts as a check-in (one graph point).
+      const isNewPB = ex.weight == null || w > ex.weight;
+      if(isNewPB){
+        ex.weight = w;
+        ex.reps = repsVal;
+      }
+      const existingCheck = session.checkedIds[id];
+      if(existingCheck && existingCheck.historyIndex != null && ex.history[existingCheck.historyIndex]){
+        ex.history[existingCheck.historyIndex] = { date: todayStr(), weight: ex.weight, reps: ex.reps };
+      } else {
+        ex.history.push({ date: todayStr(), weight: ex.weight, reps: ex.reps });
+        session.checkedIds[id] = { historyIndex: ex.history.length - 1 };
+      }
+      saveActiveWorkouts();
+    } else {
+      // Manual edit outside a workout session - unchanged direct-save behavior.
+      ex.weight = w;
+      ex.reps = repsVal;
+      ex.history.push({ date: todayStr(), weight: ex.weight, reps: ex.reps });
+    }
+
     saveExercises();
     renderExercisePage(muscle);
     overlay.remove();
