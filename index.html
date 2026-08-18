@@ -190,11 +190,21 @@ Index · HTML
   }
   .page-inner{ max-width:640px; margin:0 auto; padding:0 18px 60px; }
  
+  .dots-row{
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    margin:14px 0 18px;
+  }
   .dots{
     display:flex; justify-content:center; gap:7px;
-    margin:14px 0 18px;
+    margin:0;
     direction:ltr;
   }
+  .page-nav-btn{
+    flex:none; background:none; border:1px solid var(--line); color:var(--chalk-dim);
+    font-family:'JetBrains Mono',monospace; font-size:11px; padding:6px 10px;
+    cursor:pointer; border-radius:20px;
+  }
+  .page-nav-btn:hover{ border-color:var(--brass); color:var(--brass); }
   .dot{
     width:7px; height:7px; border-radius:50%;
     background:var(--line); transition:background 0.2s, transform 0.2s;
@@ -293,6 +303,14 @@ Index · HTML
   .workout-toggle-btn.active{ background:var(--moss-green); border-color:var(--moss-green); color:#fff; }
   .workout-toggle-btn.active:hover{ background:#527650; }
 
+  .workout-controls{ display:flex; gap:8px; margin:2px 0 18px; }
+  .workout-controls .workout-toggle-btn{ margin:0; }
+  .workout-toggle-btn.finish{ flex:1; }
+  .workout-toggle-btn.cancel{
+    flex:0 0 auto; border-color:var(--iron-red); color:var(--iron-red);
+  }
+  .workout-toggle-btn.cancel:hover{ background:var(--iron-red); color:#fff; }
+
   .workout-badge{
     display:inline-flex; align-items:center; gap:5px;
     font-size:10px; letter-spacing:1.5px; text-transform:uppercase;
@@ -322,7 +340,11 @@ Index · HTML
  
   <div class="now-panel" id="now-panel"></div>
  
-  <div class="dots" id="dots"></div>
+  <div class="dots-row">
+    <button class="page-nav-btn" onclick="prevPage()" aria-label="עמוד קודם">◀ הקודם</button>
+    <div class="dots" id="dots"></div>
+    <button class="page-nav-btn" onclick="nextPage()" aria-label="עמוד הבא">הבא ▶</button>
+  </div>
  
   <div class="pages-container" id="pagesContainer">
  
@@ -353,7 +375,7 @@ Index · HTML
       <div class="page-inner">
         <h2 class="muscle-page-title">רגליים + ישבן</h2>
         <p class="muscle-page-sub">התרגילים שלך לקבוצת השרירים הזו</p>
-        <button class="workout-toggle-btn" id="workout-toggle-legs" onclick="toggleWorkoutMode('legs')">▶ התחלת אימון</button>
+        <div class="workout-controls" id="workout-controls-legs"></div>
         <div class="muscle-page-body" id="muscle-body-legs"></div>
       </div>
     </div>
@@ -362,7 +384,7 @@ Index · HTML
       <div class="page-inner">
         <h2 class="muscle-page-title">גב + יד קדמית + אמות</h2>
         <p class="muscle-page-sub">התרגילים שלך לקבוצת השרירים הזו</p>
-        <button class="workout-toggle-btn" id="workout-toggle-back" onclick="toggleWorkoutMode('back')">▶ התחלת אימון</button>
+        <div class="workout-controls" id="workout-controls-back"></div>
         <div class="muscle-page-body" id="muscle-body-back"></div>
       </div>
     </div>
@@ -371,7 +393,7 @@ Index · HTML
       <div class="page-inner">
         <h2 class="muscle-page-title">חזה + כתפיים + יד אחורית</h2>
         <p class="muscle-page-sub">התרגילים שלך לקבוצת השרירים הזו</p>
-        <button class="workout-toggle-btn" id="workout-toggle-chest" onclick="toggleWorkoutMode('chest')">▶ התחלת אימון</button>
+        <div class="workout-controls" id="workout-controls-chest"></div>
         <div class="muscle-page-body" id="muscle-body-chest"></div>
       </div>
     </div>
@@ -818,12 +840,18 @@ function saveActiveWorkouts(){
   }catch(e){ console.error('Storage error', e); }
 }
 
-function updateWorkoutButton(muscle){
-  const btn = document.getElementById('workout-toggle-' + muscle);
-  if(!btn) return;
+function renderWorkoutControls(muscle){
+  const el = document.getElementById('workout-controls-' + muscle);
+  if(!el) return;
   const active = !!activeWorkouts[muscle];
-  btn.textContent = active ? '\u23f9 \u05e1\u05d9\u05d5\u05dd \u05d0\u05d9\u05de\u05d5\u05df' : '\u25b6 \u05d4\u05ea\u05d7\u05dc\u05ea \u05d0\u05d9\u05de\u05d5\u05df';
-  btn.classList.toggle('active', active);
+  if(!active){
+    el.innerHTML = `<button class="workout-toggle-btn" onclick="toggleWorkoutMode('${muscle}')">\u25b6 \u05d4\u05ea\u05d7\u05dc\u05ea \u05d0\u05d9\u05de\u05d5\u05df</button>`;
+  } else {
+    el.innerHTML = `
+      <button class="workout-toggle-btn finish active" onclick="toggleWorkoutMode('${muscle}')">\u23f9 \u05e1\u05d9\u05d5\u05dd \u05d0\u05d9\u05de\u05d5\u05df</button>
+      <button class="workout-toggle-btn cancel" onclick="cancelWorkout('${muscle}')">\u2715 \u05d1\u05d9\u05d8\u05d5\u05dc</button>
+    `;
+  }
 }
 
 function toggleWorkoutMode(muscle){
@@ -855,6 +883,28 @@ function finishWorkout(muscle){
   render();
 }
 
+function cancelWorkout(muscle){
+  const session = activeWorkouts[muscle];
+  if(!session) return;
+  if(!confirm('\u05dc\u05d1\u05d8\u05dc \u05d0\u05ea \u05d4\u05d0\u05d9\u05de\u05d5\u05df? \u05db\u05dc \u05d4\u05e1\u05d9\u05de\u05d5\u05e0\u05d9\u05dd \u05e9\u05d1\u05d5\u05e6\u05e2\u05d5 \u05de\u05ea\u05d7\u05d9\u05dc\u05ea \u05d4\u05d0\u05d9\u05de\u05d5\u05df \u05d9\u05d9\u05de\u05d7\u05e7\u05d5.')) return;
+
+  Object.keys(session.checkedIds).forEach(id => {
+    const ex = findExercise(muscle, id);
+    if(!ex) return;
+    const rec = session.checkedIds[id];
+    if(rec.historyIndex != null && ex.history && ex.history[rec.historyIndex]){
+      ex.history.splice(rec.historyIndex, 1);
+    }
+    ex.weight = rec.prevWeight;
+    ex.reps = rec.prevReps;
+  });
+  saveExercises();
+
+  activeWorkouts[muscle] = null;
+  saveActiveWorkouts();
+  renderExercisePage(muscle);
+}
+
 function toggleExerciseCheck(muscle, id){
   const session = activeWorkouts[muscle];
   if(!session) return;
@@ -867,20 +917,24 @@ function toggleExerciseCheck(muscle, id){
     if(rec.historyIndex != null && ex.history[rec.historyIndex]){
       ex.history.splice(rec.historyIndex, 1);
     }
+    ex.weight = rec.prevWeight;
+    ex.reps = rec.prevReps;
     delete session.checkedIds[id];
   } else {
+    const prevWeight = ex.weight;
+    const prevReps = ex.reps;
     let historyIndex = null;
     if(ex.weight != null){
       ex.history.push({ date: todayStr(), weight: ex.weight, reps: ex.reps });
       historyIndex = ex.history.length - 1;
     }
-    session.checkedIds[id] = { historyIndex };
+    session.checkedIds[id] = { historyIndex, prevWeight, prevReps };
   }
   saveExercises();
   saveActiveWorkouts();
   renderExercisePage(muscle);
 }
- 
+
 function renderExercisePage(muscle){
   const body = document.getElementById('muscle-body-' + muscle);
   const list = exercisesData[muscle] || [];
@@ -925,7 +979,7 @@ function renderExercisePage(muscle){
   html += `<button class="add-exercise-btn" onclick="openAddExerciseModal('${muscle}')">+ הוסף תרגיל</button>`;
  
   body.innerHTML = html;
-  updateWorkoutButton(muscle);
+  renderWorkoutControls(muscle);
 }
  
 function renderAllExercisePages(){
@@ -1040,17 +1094,21 @@ function openLogModal(muscle, id){
     if(session){
       // Active workout: keep the higher weight (never regress the PB),
       // and every save during a session counts as a check-in (one graph point).
+      const existingCheck = session.checkedIds[id];
+      const prevWeight = existingCheck ? existingCheck.prevWeight : ex.weight;
+      const prevReps = existingCheck ? existingCheck.prevReps : ex.reps;
+
       const isNewPB = ex.weight == null || w > ex.weight;
       if(isNewPB){
         ex.weight = w;
         ex.reps = repsVal;
       }
-      const existingCheck = session.checkedIds[id];
       if(existingCheck && existingCheck.historyIndex != null && ex.history[existingCheck.historyIndex]){
         ex.history[existingCheck.historyIndex] = { date: todayStr(), weight: ex.weight, reps: ex.reps };
+        session.checkedIds[id] = { historyIndex: existingCheck.historyIndex, prevWeight, prevReps };
       } else {
         ex.history.push({ date: todayStr(), weight: ex.weight, reps: ex.reps });
-        session.checkedIds[id] = { historyIndex: ex.history.length - 1 };
+        session.checkedIds[id] = { historyIndex: ex.history.length - 1, prevWeight, prevReps };
       }
       saveActiveWorkouts();
     } else {
@@ -1146,9 +1204,30 @@ function setupDots(){
   }
  
   fitContainerHeight();
+  requestAnimationFrame(fitContainerHeight);
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(fitContainerHeight);
+  }
   window.addEventListener('resize', fitContainerHeight);
   window.addEventListener('orientationchange', () => setTimeout(fitContainerHeight, 200));
 }
+
+function currentPageIndex(){
+  const container = document.getElementById('pagesContainer');
+  const pages = Array.from(container.children);
+  if(!container.clientWidth) return 0;
+  return Math.max(0, Math.min(pages.length - 1, Math.round(container.scrollLeft / container.clientWidth)));
+}
+
+function goToPage(index){
+  const container = document.getElementById('pagesContainer');
+  const pages = Array.from(container.children);
+  const i = Math.max(0, Math.min(pages.length - 1, index));
+  container.scrollTo({ left: pages[i].offsetLeft, behavior:'smooth' });
+}
+
+function nextPage(){ goToPage(currentPageIndex() + 1); }
+function prevPage(){ goToPage(currentPageIndex() - 1); }
  
 if('serviceWorker' in navigator){
   window.addEventListener('load', () => {
