@@ -45,7 +45,7 @@ Index · HTML
   }
   .wrap{ max-width:640px; margin:0 auto; padding:28px 18px 60px; }
  
-.header{ margin-bottom:22px; position:relative; }
+.header{ height:36px; margin-bottom:14px; position:relative; }
 .theme-toggle{
   position:absolute; top:0; left:0;
   width:36px; height:36px; border-radius:50%;
@@ -125,37 +125,7 @@ Index · HTML
  
   .footnote{ margin-top:20px; font-size:11px; color:var(--chalk-dim); line-height:1.6; text-align:center; }
  
-  /* Current week floating bubble */
-  body{ padding-bottom:110px; }
-  .now-panel{
-    position:fixed;
-    bottom:16px;
-    left:50%;
-    transform:translateX(-50%);
-    width:calc(100% - 32px);
-    max-width:420px;
-    background:linear-gradient(135deg, #2a2823, #24221f);
-    border:2px solid var(--brass);
-    border-radius:18px;
-    padding:12px 16px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.5);
-    z-index:100;
-    cursor:pointer;
-    transition:padding 0.2s;
-  }
-  .now-panel .eyebrow2{
-    font-size:9px; letter-spacing:2px; color:#b6905c; text-transform:uppercase; margin:0 0 4px;
-  }
-  .now-panel .now-title{
-    font-family:'Oswald',sans-serif; font-size:15px; font-weight:600; color:#ede9e0; margin:0;
-    display:flex; justify-content:space-between; align-items:center;
-  }
-  .now-panel .now-title .expand-arrow{ font-size:11px; color:#a8a39a; }
-  .now-row{ display:flex; justify-content:space-between; padding:6px 0; border-top:1px solid rgba(237,233,224,0.15); font-size:12px; }
-  .now-row .k{ color:#a8a39a; }
-  .now-row .v{ color:#ede9e0; font-weight:600; }
-  .now-panel .now-details{ display:none; margin-top:8px; }
-  .now-panel.expanded .now-details{ display:block; }
+  body{ padding-bottom:16px; }
  
   /* Past week states */
   .week.week-complete{ background:var(--moss-green-bg); border-color:var(--moss-green); }
@@ -190,26 +160,18 @@ Index · HTML
   }
   .page-inner{ max-width:640px; margin:0 auto; padding:0 18px 60px; }
  
-  .dots-row{
-    display:flex; align-items:center; justify-content:center; gap:10px;
-    margin:14px 0 18px;
-  }
   .dots{
     display:flex; justify-content:center; gap:7px;
-    margin:0;
+    margin:16px 0 4px;
     direction:ltr;
   }
-  .page-nav-btn{
-    flex:none; background:none; border:1px solid var(--line); color:var(--chalk-dim);
-    font-family:'JetBrains Mono',monospace; font-size:11px; padding:6px 10px;
-    cursor:pointer; border-radius:20px;
-  }
-  .page-nav-btn:hover{ border-color:var(--brass); color:var(--brass); }
   .dot{
     width:7px; height:7px; border-radius:50%;
     background:var(--line); transition:background 0.2s, transform 0.2s;
   }
   .dot.active{ background:var(--brass); transform:scale(1.3); }
+
+  .board-title{ margin-bottom:18px; }
  
   .muscle-page-title{
     font-family:'Oswald',sans-serif; font-weight:700; font-size:22px;
@@ -307,7 +269,7 @@ Index · HTML
   .workout-controls .workout-toggle-btn{ margin:0; }
   .workout-toggle-btn.finish{ flex:1; }
   .workout-toggle-btn.cancel{
-    flex:0 0 auto; border-color:var(--iron-red); color:var(--iron-red);
+    flex:1; border-color:var(--iron-red); color:var(--iron-red);
   }
   .workout-toggle-btn.cancel:hover{ background:var(--iron-red); color:#fff; }
 
@@ -333,23 +295,13 @@ Index · HTML
  
 <div class="header">
   <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" aria-label="החלף מצב תצוגה">🌙</button>
-  <p class="eyebrow">מעקב תוכנית אימונים</p>
-  <h1>הלוח שלי</h1>
-  <p class="sub">12.7 – 1.10.2026 · חדר כושר + ריצות · יעד: 15 ק"מ</p>
 </div>
- 
-  <div class="now-panel" id="now-panel"></div>
- 
-  <div class="dots-row">
-    <button class="page-nav-btn" onclick="prevPage()" aria-label="עמוד קודם">◀ הקודם</button>
-    <div class="dots" id="dots"></div>
-    <button class="page-nav-btn" onclick="nextPage()" aria-label="עמוד הבא">הבא ▶</button>
-  </div>
  
   <div class="pages-container" id="pagesContainer">
  
     <div class="page" id="page-board">
       <div class="page-inner">
+        <h1 class="board-title">מעקב אימונים</h1>
         <div class="stats">
           <div class="stat">
             <div class="n" id="stat-done">0</div>
@@ -399,6 +351,8 @@ Index · HTML
     </div>
  
   </div>
+ 
+  <div class="dots" id="dots"></div>
  
 <script>
 const DATA = [
@@ -572,39 +526,6 @@ function toggle(date){
   render();
 }
  
-function renderNowPanel(){
-  const panel = document.getElementById('now-panel');
-  const today = todayStr();
-  const allWeeks = DATA;
- 
-  const allDays = allWeeks.flatMap(w => w.days);
-  const todayItem = allDays.find(d => d.date === today);
- 
-  if(!todayItem){
-    panel.innerHTML = `<p class="eyebrow2">התוכנית</p><p class="now-title"><span>${today < allDays[0].date ? 'עוד לא התחיל' : 'הסתיים! 🎉'}</span></p>`;
-    return;
-  }
- 
-  const dateLabel = `${today.split('-').reverse().slice(0,2).join('.')} · ${todayItem.day}`;
- 
-  let category;
-  if(todayItem.type === 'rest') category = 'מנוחה';
-  else if(todayItem.type === 'gym') category = 'כוח 💪';
-  else if(todayItem.type === 'run') category = 'ריצה 🏃';
-  else if(todayItem.type === 'home') category = 'אימון בית 🏠';
-  else if(todayItem.type === 'double') category = 'כוח + ריצה';
-  else if(todayItem.type === 'bonus') category = 'פעילות ספורטיבית 🏅';
-  else category = todayItem.act;
- 
-  const detail = getDisplayDetail(todayItem) || '';
- 
-  panel.innerHTML = `<p class="eyebrow2">${dateLabel}</p>
-    <p class="now-title"><span>${category}</span><span class="expand-arrow" id="expand-arrow">▲</span></p>
-    <div class="now-details"><div class="now-row"><span class="v" style="width:100%">${detail}</span></div></div>`;
- 
-  panel.onclick = () => panel.classList.toggle('expanded');
-}
- 
 function render(){
   const container = document.getElementById('weeks');
   container.innerHTML = '';
@@ -649,7 +570,7 @@ function render(){
  
     week.days.forEach(item => {
       const state = dayState(item);
-      if(item.type !== 'rest' && item.type !== 'bonus'){
+      if(item.type !== 'rest' && item.type !== 'bonus' && item.date <= today){
         totalTrackable++;
         if(state === 'done') totalDone++;
       }
@@ -705,8 +626,6 @@ function render(){
   document.getElementById('stat-achieve-label').textContent = nextMilestone
     ? `עוד ${nextMilestone.n - totalCompletedAll} ל-${nextMilestone.emoji} (${nextMilestone.n})`
     : 'כל התגים נפתחו! 🎉';
- 
-  renderNowPanel();
 }
  
 function applyTheme(theme){
@@ -848,8 +767,8 @@ function renderWorkoutControls(muscle){
     el.innerHTML = `<button class="workout-toggle-btn" onclick="toggleWorkoutMode('${muscle}')">\u25b6 \u05d4\u05ea\u05d7\u05dc\u05ea \u05d0\u05d9\u05de\u05d5\u05df</button>`;
   } else {
     el.innerHTML = `
-      <button class="workout-toggle-btn finish active" onclick="toggleWorkoutMode('${muscle}')">\u23f9 \u05e1\u05d9\u05d5\u05dd \u05d0\u05d9\u05de\u05d5\u05df</button>
-      <button class="workout-toggle-btn cancel" onclick="cancelWorkout('${muscle}')">\u2715 \u05d1\u05d9\u05d8\u05d5\u05dc</button>
+      <button class="workout-toggle-btn finish active" onclick="toggleWorkoutMode('${muscle}')">🏁 \u05e1\u05d9\u05d5\u05dd \u05d0\u05d9\u05de\u05d5\u05df</button>
+      <button class="workout-toggle-btn cancel" onclick="cancelWorkout('${muscle}')">🏳\uFE0F \u05d1\u05d9\u05d8\u05d5\u05dc</button>
     `;
   }
 }
@@ -1198,11 +1117,11 @@ function setupDots(){
  
   function fitContainerHeight(){
     const rect = container.getBoundingClientRect();
-    const bottomClearance = 16; // small breathing room above the now-panel area
+    const bottomClearance = 44; // room for the dots row + body padding below the pages
     const h = window.innerHeight - rect.top - bottomClearance;
     container.style.height = Math.max(200, h) + 'px';
   }
- 
+
   fitContainerHeight();
   requestAnimationFrame(fitContainerHeight);
   if(document.fonts && document.fonts.ready){
@@ -1211,23 +1130,6 @@ function setupDots(){
   window.addEventListener('resize', fitContainerHeight);
   window.addEventListener('orientationchange', () => setTimeout(fitContainerHeight, 200));
 }
-
-function currentPageIndex(){
-  const container = document.getElementById('pagesContainer');
-  const pages = Array.from(container.children);
-  if(!container.clientWidth) return 0;
-  return Math.max(0, Math.min(pages.length - 1, Math.round(container.scrollLeft / container.clientWidth)));
-}
-
-function goToPage(index){
-  const container = document.getElementById('pagesContainer');
-  const pages = Array.from(container.children);
-  const i = Math.max(0, Math.min(pages.length - 1, index));
-  container.scrollTo({ left: pages[i].offsetLeft, behavior:'smooth' });
-}
-
-function nextPage(){ goToPage(currentPageIndex() + 1); }
-function prevPage(){ goToPage(currentPageIndex() - 1); }
  
 if('serviceWorker' in navigator){
   window.addEventListener('load', () => {
