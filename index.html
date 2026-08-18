@@ -47,7 +47,7 @@ Index · HTML
  
 .header{ height:36px; margin-bottom:14px; position:relative; }
 .theme-toggle{
-  position:absolute; top:0; left:14px;
+  position:absolute; top:0; left:0;
   width:36px; height:36px; border-radius:50%;
   border:1px solid var(--line); background:var(--bg-raised);
   color:var(--chalk); font-size:16px; cursor:pointer;
@@ -59,7 +59,7 @@ Index · HTML
     color:var(--brass); text-transform:uppercase; margin:0 0 6px;
   }
   h1{
-    font-family:'Oswald',sans-serif; font-weight:700; font-size:34px;
+    font-family:'Oswald',sans-serif; font-weight:700; font-size:30px;
     margin:0 0 4px; letter-spacing:0.5px; color:var(--chalk);
   }
   .sub{ color:var(--chalk-dim); font-size:13px; margin:0; }
@@ -174,7 +174,7 @@ Index · HTML
   .board-title{ margin-bottom:18px; }
  
   .muscle-page-title{
-    font-family:'Oswald',sans-serif; font-weight:700; font-size:25px;
+    font-family:'Oswald',sans-serif; font-weight:700; font-size:22px;
     margin:0 0 4px; color:var(--chalk);
   }
   .muscle-page-sub{ color:var(--chalk-dim); font-size:12px; margin:0 0 20px; }
@@ -280,7 +280,11 @@ Index · HTML
     padding:4px 9px; margin-bottom:12px; background:var(--moss-green-bg);
   }
 
+  .page.workout-mode{ background:var(--moss-green-bg); }
   .muscle-page-body.workout-mode .exercise-card{ border-color:var(--brass); }
+
+  .exercise-card{ transition:opacity 0.2s; }
+  .exercise-card.done{ opacity:0.5; }
 
   .exercise-actions{ display:flex; align-items:center; gap:6px; flex:none; }
   .exercise-checkbox{
@@ -856,11 +860,13 @@ function toggleExerciseCheck(muscle, id){
 
 function renderExercisePage(muscle){
   const body = document.getElementById('muscle-body-' + muscle);
+  const pageEl = document.getElementById('page-' + muscle);
   const list = exercisesData[muscle] || [];
   const categories = MUSCLE_CATEGORIES[muscle];
   const session = activeWorkouts[muscle];
 
   body.classList.toggle('workout-mode', !!session);
+  if(pageEl) pageEl.classList.toggle('workout-mode', !!session);
 
   let html = '';
   if(session){
@@ -868,12 +874,20 @@ function renderExercisePage(muscle){
   }
   categories.forEach(cat => {
     const items = list.filter(ex => ex.category === cat);
+    // During an active workout, checked exercises sink to the bottom (dimmed) so what's left stays in view.
+    const sortedItems = session
+      ? items.slice().sort((a, b) => {
+          const aChecked = (session.checkedIds && session.checkedIds[a.id]) ? 1 : 0;
+          const bChecked = (session.checkedIds && session.checkedIds[b.id]) ? 1 : 0;
+          return aChecked - bChecked;
+        })
+      : items;
     html += `<div class="muscle-section">
       <div class="muscle-section-title">${cat}</div>`;
-    if(items.length === 0){
+    if(sortedItems.length === 0){
       html += `<div class="exercise-empty">אין עדיין תרגילים ב${cat}</div>`;
     } else {
-      items.forEach(ex => {
+      sortedItems.forEach(ex => {
         const lastInfo = (ex.weight != null)
           ? `${ex.weight} ק"ג${ex.reps != null ? ' × ' + ex.reps + ' חז׳' : ''}`
           : 'אין עדיין נתונים';
@@ -881,7 +895,7 @@ function renderExercisePage(muscle){
         const checkboxHtml = session
           ? `<span class="exercise-checkbox ${isChecked ? 'checked' : ''}" onclick="event.stopPropagation(); toggleExerciseCheck('${muscle}','${ex.id}')">${isChecked ? '✓' : ''}</span>`
           : '';
-        html += `<div class="exercise-card" onclick="openLogModal('${muscle}','${ex.id}')">
+        html += `<div class="exercise-card ${isChecked ? 'done' : ''}" onclick="openLogModal('${muscle}','${ex.id}')">
           <span class="exercise-info">
             <span class="exercise-name">${ex.name}</span>
             <span class="exercise-last">${lastInfo}</span>
