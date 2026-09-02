@@ -830,14 +830,33 @@ function toggleWorkoutMode(muscle){
 function finishWorkout(muscle){
   const today = todayStr();
   let marked = false;
+  let targetItem = null;
+
+  // 1. Prefer an exact match: today's date has a scheduled day for this muscle.
   DATA.forEach(week => {
     week.days.forEach(item => {
-      if(item.muscle === muscle && item.date === today && !completed[item.date]){
-        completed[item.date] = true;
-        marked = true;
-      }
+      if(item.muscle === muscle && item.date === today && !completed[item.date]) targetItem = item;
     });
   });
+
+  // 2. Otherwise, find the closest not-yet-completed day for this muscle
+  // within the current week (handles doing a workout early/late vs. its
+  // scheduled day, e.g. doing Thursday's back day on Wednesday instead).
+  if(!targetItem){
+    const currentWeek = DATA.find(week => week.days.some(d => d.date === today));
+    if(currentWeek){
+      const candidates = currentWeek.days.filter(d => d.muscle === muscle && !completed[d.date]);
+      if(candidates.length){
+        candidates.sort((a, b) => Math.abs(new Date(a.date) - new Date(today)) - Math.abs(new Date(b.date) - new Date(today)));
+        targetItem = candidates[0];
+      }
+    }
+  }
+
+  if(targetItem){
+    completed[targetItem.date] = true;
+    marked = true;
+  }
   if(marked) saveState();
 
   activeWorkouts[muscle] = null;
@@ -1082,6 +1101,19 @@ function openLogModal(muscle, id){
       } else {
         ex.history.push({ date: todayStr(), weight: w, reps: repsVal });
         session.checkedIds[id] = { historyIndex: ex.history.length - 1, prevWeight, prevReps };
+      }
+
+      // If the last 3 consecutive check-ins are all below the current PB,
+      // lower the PB to the highest of those 3 (adapts to a real capability drop).
+      if(ex.history.length >= 3){
+        const lastThree = ex.history.slice(-3);
+        const allBelowPB = lastThree.every(h => h.weight != null && h.weight < ex.weight);
+        if(allBelowPB){
+          let best = lastThree[0];
+          lastThree.forEach(h => { if(h.weight > best.weight) best = h; });
+          ex.weight = best.weight;
+          ex.reps = best.reps;
+        }
       }
       saveActiveWorkouts();
     } else {
