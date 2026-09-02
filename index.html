@@ -1075,10 +1075,10 @@ function openLogModal(muscle, id){
         ex.reps = repsVal;
       }
       if(existingCheck && existingCheck.historyIndex != null && ex.history[existingCheck.historyIndex]){
-        ex.history[existingCheck.historyIndex] = { date: todayStr(), weight: ex.weight, reps: ex.reps };
+        ex.history[existingCheck.historyIndex] = { date: todayStr(), weight: w, reps: repsVal };
         session.checkedIds[id] = { historyIndex: existingCheck.historyIndex, prevWeight, prevReps };
       } else {
-        ex.history.push({ date: todayStr(), weight: ex.weight, reps: ex.reps });
+        ex.history.push({ date: todayStr(), weight: w, reps: repsVal });
         session.checkedIds[id] = { historyIndex: ex.history.length - 1, prevWeight, prevReps };
       }
       saveActiveWorkouts();
