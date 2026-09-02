@@ -299,6 +299,7 @@ Index · HTML
  
 <div class="header">
   <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" aria-label="החלף מצב תצוגה">🌙</button>
+  <button id="resetHistoryBtn" class="theme-toggle" onclick="resetAllExerciseHistory()" aria-label="איפוס היסטוריית גרפים" title="איפוס היסטוריית גרפים">🗑️</button>
 </div>
  
   <div class="pages-container" id="pagesContainer">
@@ -734,19 +735,16 @@ function seedExercises(){
 }
 seedExercises();
 
-// One-time utility: visit index.html?resetHistory=1 to wipe graph history
-// on every exercise while keeping current weight/reps (personal bests) intact.
-(function resetHistoryIfRequested(){
-  const params = new URLSearchParams(window.location.search);
-  if(params.get('resetHistory') === '1'){
-    Object.keys(exercisesData).forEach(muscle => {
-      (exercisesData[muscle] || []).forEach(ex => { ex.history = []; });
-    });
-    saveExercises();
-    window.history.replaceState({}, '', window.location.pathname);
-    alert('ההיסטוריה אופסה בהצלחה. המשקלים והחזרות (השיאים) נשארו כמו שהיו.');
-  }
-})();
+// One-time utility (temporary button in header): wipes graph history on
+// every exercise while keeping current weight/reps (personal bests) intact.
+function resetAllExerciseHistory(){
+  if(!confirm('לאפס את היסטוריית הגרפים בכל התרגילים? המשקלים והחזרות (השיאים) יישארו כמו שהם. פעולה זו לא ניתנת לביטול.')) return;
+  Object.keys(exercisesData).forEach(muscle => {
+    (exercisesData[muscle] || []).forEach(ex => { ex.history = []; });
+  });
+  saveExercises();
+  alert('ההיסטוריה אופסה בהצלחה.');
+}
  
 applyTheme(localStorage.getItem('theme') || 'dark');
  
