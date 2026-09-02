@@ -733,6 +733,20 @@ function seedExercises(){
   if(seeded) saveExercises();
 }
 seedExercises();
+
+// One-time utility: visit index.html?resetHistory=1 to wipe graph history
+// on every exercise while keeping current weight/reps (personal bests) intact.
+(function resetHistoryIfRequested(){
+  const params = new URLSearchParams(window.location.search);
+  if(params.get('resetHistory') === '1'){
+    Object.keys(exercisesData).forEach(muscle => {
+      (exercisesData[muscle] || []).forEach(ex => { ex.history = []; });
+    });
+    saveExercises();
+    window.history.replaceState({}, '', window.location.pathname);
+    alert('ההיסטוריה אופסה בהצלחה. המשקלים והחזרות (השיאים) נשארו כמו שהיו.');
+  }
+})();
  
 applyTheme(localStorage.getItem('theme') || 'dark');
  
