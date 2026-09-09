@@ -89,6 +89,18 @@ Index · HTML
   .week-range{ font-size:11px; color:var(--chalk-dim); }
   .week-body{ border-top:1px solid var(--line); }
   .week-body.collapsed{ display:none; }
+
+  .month-group{ margin-bottom:12px; }
+  .month-head{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:13px 14px; cursor:pointer; user-select:none;
+    background:var(--brass); color:#1a1812;
+    font-family:'Oswald',sans-serif; font-size:15px; letter-spacing:1px; text-transform:uppercase;
+  }
+  .month-head .chevron{ transition:transform .2s; font-size:13px; }
+  .month-head.collapsed .chevron{ transform:rotate(-90deg); }
+  .month-body{ padding-top:8px; }
+  .month-body.collapsed{ display:none; }
  
   .day{
     display:flex; align-items:center; gap:12px;
@@ -582,7 +594,39 @@ function render(){
   else if(today > planEnd) targetWeekNum = DATA[DATA.length-1].w;
   else targetWeekNum = null; // will be determined per-week below
  
+  const HEBREW_MONTHS = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
+  let currentMonthKey = null;
+
   DATA.forEach(week => {
+    const monthKey = week.days[0].date.slice(0,7); // YYYY-MM, grouped by the week's first day
+    let monthGroupEl = container.querySelector(`[data-month="${monthKey}"]`);
+
+    if(!monthGroupEl){
+      const [yy, mm] = monthKey.split('-');
+      const monthLabel = `${HEBREW_MONTHS[parseInt(mm,10)-1]} ${yy}`;
+
+      monthGroupEl = document.createElement('div');
+      monthGroupEl.className = 'month-group';
+      monthGroupEl.dataset.month = monthKey;
+
+      const monthHead = document.createElement('div');
+      monthHead.className = 'month-head';
+      monthHead.innerHTML = `<span>${monthLabel}</span><span class="chevron">▾</span>`;
+
+      const monthBody = document.createElement('div');
+      monthBody.className = 'month-body';
+
+      monthHead.onclick = () => {
+        monthHead.classList.toggle('collapsed');
+        monthBody.classList.toggle('collapsed');
+      };
+
+      monthGroupEl.appendChild(monthHead);
+      monthGroupEl.appendChild(monthBody);
+      container.appendChild(monthGroupEl);
+    }
+
+    const monthBody = monthGroupEl.querySelector('.month-body');
     const weekEl = document.createElement('div');
     weekEl.className = 'week';
  
@@ -609,6 +653,7 @@ function render(){
     const firstDateInWeek = week.days[0].date;
     const isThisWeekCurrent = targetWeekNum ? week.w === targetWeekNum : (today >= firstDateInWeek && today <= lastDateInWeek);
     if(!isThisWeekCurrent) body.classList.add('collapsed');
+    if(isThisWeekCurrent) currentMonthKey = monthKey;
  
     week.days.forEach(item => {
       const state = dayState(item);
@@ -640,10 +685,19 @@ function render(){
     });
  
     weekEl.appendChild(body);
-    container.appendChild(weekEl);
+    monthBody.appendChild(weekEl);
  
     head.onclick = () => body.classList.toggle('collapsed');
   });
+
+  // Collapse every month except the one containing the current week (or today).
+  container.querySelectorAll('.month-group').forEach(groupEl => {
+    if(groupEl.dataset.month !== currentMonthKey){
+      groupEl.querySelector('.month-head').classList.add('collapsed');
+      groupEl.querySelector('.month-body').classList.add('collapsed');
+    }
+  });
+
  
   document.getElementById('stat-done').textContent = `${totalDone}/${totalTrackable}`;
   document.getElementById('stat-pct').textContent = totalTrackable ? Math.round((totalDone/totalTrackable)*100) + '%' : '0%';
