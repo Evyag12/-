@@ -110,18 +110,6 @@ body{
   color:var(--ink-dim); font-size:14px; margin-bottom:16px;
 }
 
-/* ===== Streak chip (header) + slim stats line ===== */
-.streak-chip{
-  position:absolute; top:0; right:12px; height:38px;
-  display:flex; align-items:center; gap:5px;
-  padding:0 14px; border-radius:var(--radius-pill);
-  background:var(--surface); border:var(--card-border); box-shadow:var(--card-shadow);
-  font-size:13px; font-weight:700; color:var(--ink);
-}
-.stats-line{
-  text-align:center; font-size:12px; color:var(--ink-dim);
-  margin:0 0 20px; line-height:1.6;
-}
 
 .week{ margin-bottom:10px; border-radius:var(--radius-md); background:var(--surface); border:var(--card-border); box-shadow:var(--card-shadow); overflow:hidden; }
 .week-head{
@@ -354,7 +342,6 @@ body{
  
 <div class="header">
   <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" aria-label="החלף מצב תצוגה">🌙</button>
-  <div class="streak-chip" id="streakChip"></div>
 </div>
  
   <div class="pages-container" id="pagesContainer">
@@ -365,8 +352,6 @@ body{
 
         <div class="hero-card" id="heroCard"></div>
 
-        <p class="stats-line" id="statsLine"></p>
- 
         <div id="weeks"></div>
  
         <p class="footnote">לחץ על הריבוע כדי לסמן אימון כבוצע · ירוק = בוצע · אדום = יום שעבר בלי סימון · שבועות שעברו נעולים · בשבתות יש פעילות ספורטיבית 🏅 בונוס - לא משפיעה על ציון השבוע, אבל מקדמת את ההישגים · המידע נשמר אוטומטית</p>
@@ -588,33 +573,6 @@ function render(){
   });
 
  
-  const pctText = totalTrackable ? Math.round((totalDone/totalTrackable)*100) + '%' : '0%';
- 
-  // Achievements: total completed workouts (never resets, only grows) + next milestone badge
-  const MILESTONES = [
-    {n:10, emoji:'🔥'},
-    {n:25, emoji:'💪'},
-    {n:50, emoji:'🏆'},
-    {n:75, emoji:'⭐'},
-    {n:100, emoji:'👑'}
-  ];
-  const totalCompletedAll = Object.keys(completed).length;
-  let currentBadge = '';
-  let nextMilestone = null;
-  MILESTONES.forEach(m => {
-    if(totalCompletedAll >= m.n) currentBadge = m.emoji;
-    if(nextMilestone === null && totalCompletedAll < m.n) nextMilestone = m;
-  });
-
-  const streakChip = document.getElementById('streakChip');
-  if(streakChip) streakChip.textContent = `${currentBadge || '✦'} ${totalCompletedAll}`;
-
-  const milestoneText = nextMilestone
-    ? `עוד ${nextMilestone.n - totalCompletedAll} ל-${nextMilestone.emoji} ${nextMilestone.n}`
-    : 'כל התגים נפתחו! 🎉';
-  const statsLine = document.getElementById('statsLine');
-  if(statsLine) statsLine.textContent = `${pctText} הושלמו · ${totalDone}/${totalTrackable} אימונים · ${milestoneText}`;
-
   renderHero();
 }
 
