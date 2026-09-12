@@ -110,14 +110,18 @@ body{
   color:var(--ink-dim); font-size:14px; margin-bottom:16px;
 }
 
-/* ===== Compact stats row ===== */
-.stats{ display:flex; gap:8px; margin:0 0 22px; }
-.stat{
-  flex:1; background:var(--surface-2); border-radius:var(--radius-md);
-  padding:12px 8px; text-align:center;
+/* ===== Streak chip (header) + slim stats line ===== */
+.streak-chip{
+  position:absolute; top:0; right:12px; height:38px;
+  display:flex; align-items:center; gap:5px;
+  padding:0 14px; border-radius:var(--radius-pill);
+  background:var(--surface); border:var(--card-border); box-shadow:var(--card-shadow);
+  font-size:13px; font-weight:700; color:var(--ink);
 }
-.stat .n{ font-size:18px; font-weight:800; color:var(--ink); }
-.stat .l{ font-size:10px; font-weight:600; color:var(--ink-dim); margin-top:2px; }
+.stats-line{
+  text-align:center; font-size:12px; color:var(--ink-dim);
+  margin:0 0 20px; line-height:1.6;
+}
 
 .week{ margin-bottom:10px; border-radius:var(--radius-md); background:var(--surface); border:var(--card-border); box-shadow:var(--card-shadow); overflow:hidden; }
 .week-head{
@@ -350,6 +354,7 @@ body{
  
 <div class="header">
   <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" aria-label="החלף מצב תצוגה">🌙</button>
+  <div class="streak-chip" id="streakChip"></div>
 </div>
  
   <div class="pages-container" id="pagesContainer">
@@ -360,20 +365,7 @@ body{
 
         <div class="hero-card" id="heroCard"></div>
 
-        <div class="stats">
-          <div class="stat">
-            <div class="n" id="stat-done">0</div>
-            <div class="l">בוצעו</div>
-          </div>
-          <div class="stat">
-            <div class="n" id="stat-pct">0%</div>
-            <div class="l">אחוז השלמה</div>
-          </div>
-          <div class="stat">
-            <div class="n" id="stat-achieve">0</div>
-            <div class="l" id="stat-achieve-label">אימונים שהושלמו</div>
-          </div>
-        </div>
+        <p class="stats-line" id="statsLine"></p>
  
         <div id="weeks"></div>
  
@@ -596,8 +588,7 @@ function render(){
   });
 
  
-  document.getElementById('stat-done').textContent = `${totalDone}/${totalTrackable}`;
-  document.getElementById('stat-pct').textContent = totalTrackable ? Math.round((totalDone/totalTrackable)*100) + '%' : '0%';
+  const pctText = totalTrackable ? Math.round((totalDone/totalTrackable)*100) + '%' : '0%';
  
   // Achievements: total completed workouts (never resets, only grows) + next milestone badge
   const MILESTONES = [
@@ -614,11 +605,15 @@ function render(){
     if(totalCompletedAll >= m.n) currentBadge = m.emoji;
     if(nextMilestone === null && totalCompletedAll < m.n) nextMilestone = m;
   });
- 
-  document.getElementById('stat-achieve').textContent = `${currentBadge ? currentBadge + ' ' : ''}${totalCompletedAll}`;
-  document.getElementById('stat-achieve-label').textContent = nextMilestone
-    ? `עוד ${nextMilestone.n - totalCompletedAll} ל-${nextMilestone.emoji} (${nextMilestone.n})`
+
+  const streakChip = document.getElementById('streakChip');
+  if(streakChip) streakChip.textContent = `${currentBadge || '✦'} ${totalCompletedAll}`;
+
+  const milestoneText = nextMilestone
+    ? `עוד ${nextMilestone.n - totalCompletedAll} ל-${nextMilestone.emoji} ${nextMilestone.n}`
     : 'כל התגים נפתחו! 🎉';
+  const statsLine = document.getElementById('statsLine');
+  if(statsLine) statsLine.textContent = `${pctText} הושלמו · ${totalDone}/${totalTrackable} אימונים · ${milestoneText}`;
 
   renderHero();
 }
