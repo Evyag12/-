@@ -894,14 +894,7 @@ function renderExercisePage(muscle){
   }
   categories.forEach(cat => {
     const items = list.filter(ex => ex.category === cat);
-    // During an active workout, checked exercises sink to the bottom (dimmed) so what's left stays in view.
-    const sortedItems = session
-      ? items.slice().sort((a, b) => {
-          const aChecked = (session.checkedIds && session.checkedIds[a.id]) ? 1 : 0;
-          const bChecked = (session.checkedIds && session.checkedIds[b.id]) ? 1 : 0;
-          return aChecked - bChecked;
-        })
-      : items;
+    const sortedItems = items;
     html += `<div class="muscle-section">
       <div class="muscle-section-title">${cat}</div>`;
     if(sortedItems.length === 0){
