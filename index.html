@@ -357,6 +357,13 @@ body{
         <p class="footnote">לחץ על הריבוע כדי לסמן אימון כבוצע · ירוק = בוצע · אדום = יום שעבר בלי סימון · שבועות שעברו נעולים · בשבתות יש פעילות ספורטיבית 🏅 בונוס - לא משפיעה על ציון השבוע, אבל מקדמת את ההישגים · המידע נשמר אוטומטית</p>
       </div>
     </div>
+    
+    <!-- מסך אימוני הבטן החדש -->
+    <div class="page" id="page-abs" data-muscle="abs">
+      <div class="page-inner" id="abs-content">
+        <!-- התוכן של מסך הבטן יוזרק לכאן על ידי JavaScript -->
+      </div>
+    </div>
  
     <div class="page" id="page-legs" data-muscle="legs">
       <div class="page-inner">
@@ -633,7 +640,177 @@ function toggleTheme(){
  
 let exercisesData = loadExercises();
 let activeWorkouts = loadActiveWorkouts();
- 
+
+// === נתונים ולוגיקה של מסך אימוני בטן ===
+let absWorkoutsData = [];
+let activeAbsWorkout = null;
+let absTimer = null;
+let absPhase = 'list';
+let absTimeLeft = 0;
+let absExIndex = 0;
+let isAbsPaused = false;
+
+function formatTime(secs) {
+  const m = Math.floor(secs / 60);
+  const s = secs % 60;
+  return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+}
+
+function renderAbsPage() {
+  const container = document.getElementById('abs-content');
+  if(!container) return;
+
+  if(absPhase === 'list') {
+      let html = `<h2 class="muscle-page-title">אימוני בטן ⏱️</h2><p class="muscle-page-sub">בחר מסלול אימון כדי להתחיל</p>`;
+      if(absWorkoutsData.length === 0){
+          html += `<div class="exercise-empty">טוען נתונים או שאין אימונים זמינים...</div>`;
+      }
+      absWorkoutsData.forEach(w => {
+          html += `<div class="exercise-card" onclick="selectAbsWorkout('${w.id}')">
+              <span class="exercise-info">
+                  <span class="exercise-name">${w.title}</span>
+                  <span class="exercise-last">${w.workTime} שניות עבודה / ${w.restTime} שניות מנוחה</span>
+              </span>
+              <span class="exercise-actions"><span class="exercise-menu-btn" style="color:var(--ember)">▶️</span></span>
+          </div>`;
+      });
+      container.innerHTML = html;
+  } else if (absPhase === 'preview' || absPhase === 'prep' || absPhase === 'work' || absPhase === 'rest' || absPhase === 'done') {
+      let html = `<button class="hero-btn secondary" style="margin-bottom:15px;" onclick="stopAbsTimer()">⬅️ חזור לרשימה</button>`;
+      html += `<h2 class="muscle-page-title" style="font-size:20px;">${activeAbsWorkout.title}</h2>`;
+
+      if (absPhase === 'preview') {
+          html += `<p class="muscle-page-sub">${activeAbsWorkout.description}</p>`;
+          html += `<button class="workout-toggle-btn active" style="margin-top:10px; width:100%; font-size:18px;" onclick="startAbsTimer()">התחל אימון ▶️</button>`;
+          html += `<div style="text-align:right; margin-top:20px;">`;
+          html += `<div class="muscle-section-title">רשימת תרגילים (${activeAbsWorkout.exercises.length}):</div>`;
+          activeAbsWorkout.exercises.forEach((ex, idx) => {
+              html += `<div style="font-size:14px; padding:10px 0; border-bottom:1px solid var(--line); color:var(--ink); display:flex; gap:10px; align-items:center;">
+                  <span style="background:var(--surface-2); padding:2px 8px; border-radius:10px; font-size:12px; color:var(--ink-dim);">${idx+1}</span>
+                  ${ex.name}
+              </div>`;
+          });
+          html += `</div>`;
+      } else if (absPhase === 'done') {
+          html += `<div style="text-align:center; padding:30px 10px; background:var(--surface); border-radius:var(--radius-lg); border:var(--card-border); margin-top:20px;">
+              <div style="font-size:4em; margin-bottom:10px;">🏆</div>
+              <h3 style="color:var(--ink);">כל הכבוד! אימון הושלם בהצלחה!</h3>
+              <button class="workout-toggle-btn active" style="margin-top:20px;" onclick="stopAbsTimer()">סיום וחזרה לרשימה</button>
+          </div>`;
+      } else {
+          // Timer Active
+          const bg = absPhase === 'work' ? 'var(--ember-bg)' : (absPhase === 'rest' ? 'var(--success-bg)' : 'var(--surface-2)');
+          const color = absPhase === 'work' ? 'var(--ember)' : (absPhase === 'rest' ? 'var(--success)' : 'var(--ink)');
+          const titleText = absPhase === 'prep' ? 'הכן את עצמך...' : (absPhase === 'work' ? '🔥 עבודה!' : 'תרפה... מנוחה');
+
+          let currentEx = activeAbsWorkout.exercises[absExIndex];
+          let nextEx = activeAbsWorkout.exercises[absExIndex + 1];
+
+          html += `<div style="text-align:center; background:var(--surface); border:var(--card-border); border-radius:var(--radius-lg); padding:20px; margin-top:15px;">`;
+
+          html += `<div style="background:${bg}; border-radius:var(--radius-md); padding:25px 10px; margin-bottom:20px; transition:background 0.3s;">
+              <div style="font-size:18px; font-weight:800; color:${color}; margin-bottom:10px;">${titleText}</div>
+              <div style="font-size:5em; font-weight:900; line-height:1; font-variant-numeric: tabular-nums; color:var(--ink);">${formatTime(absTimeLeft)}</div>
+          </div>`;
+
+          if (absPhase === 'work' || absPhase === 'prep') {
+              html += `<h3 style="margin:0 0 15px; color:var(--ink); font-size:22px;">${currentEx.name}</h3>`;
+              // הוספתי תמונת גיבוי למקרה שהקישורים לקבצי ה-GIF החיצוניים לא נטענים טוב
+              html += `<div style="width:100%; max-width:300px; margin:0 auto; border-radius:var(--radius-md); overflow:hidden; box-shadow:var(--card-shadow); border:1px solid var(--line);">
+                         <img src="${currentEx.gifUrl}" alt="${currentEx.name}" style="width:100%; height:auto; display:block; min-height:180px; object-fit:cover; background:var(--surface-2);" onerror="this.src='https://media.giphy.com/media/3o7TKrEzvLbgqjSYbW/giphy.gif';">
+                       </div>`;
+          } else if (absPhase === 'rest') {
+              html += `<h3 style="margin:0 0 10px; color:var(--ink-dim); font-size:16px;">התרגיל הבא:</h3>`;
+              if(nextEx) {
+                  html += `<h3 style="margin:0 0 15px; color:var(--ink); font-size:20px;">${nextEx.name}</h3>`;
+              } else {
+                  html += `<h3 style="margin:0 0 15px; color:var(--ink); font-size:20px;">סיימנו!</h3>`;
+              }
+          }
+
+          html += `<div style="display:flex; gap:10px; margin-top:25px;">
+              <button class="hero-btn secondary" style="flex:1;" onclick="pauseAbsTimer()" id="pauseAbsBtn">⏸️ השהה</button>
+          </div>`;
+
+          html += `</div>`;
+      }
+      container.innerHTML = html;
+  }
+}
+
+function selectAbsWorkout(id) {
+  activeAbsWorkout = absWorkoutsData.find(w => w.id === id);
+  absPhase = 'preview';
+  renderAbsPage();
+}
+
+function startAbsTimer() {
+  absPhase = 'prep';
+  absExIndex = 0;
+  absTimeLeft = 5; // 5 seconds countdown
+  isAbsPaused = false;
+  renderAbsPage();
+  if(absTimer) clearInterval(absTimer);
+  absTimer = setInterval(tickAbsTimer, 1000);
+}
+
+function pauseAbsTimer() {
+  if (isAbsPaused) {
+      // חזרה לפעולה
+      isAbsPaused = false;
+      absTimer = setInterval(tickAbsTimer, 1000);
+      document.getElementById('pauseAbsBtn').innerHTML = '⏸️ השהה';
+  } else {
+      // השהייה
+      isAbsPaused = true;
+      clearInterval(absTimer);
+      document.getElementById('pauseAbsBtn').innerHTML = '▶️ המשך';
+  }
+}
+
+function stopAbsTimer() {
+  if(absTimer) clearInterval(absTimer);
+  absPhase = 'list';
+  activeAbsWorkout = null;
+  isAbsPaused = false;
+  renderAbsPage();
+}
+
+function tickAbsTimer() {
+  absTimeLeft--;
+  if (absTimeLeft < 0) {
+      advanceAbsPhase();
+  }
+  if (absPhase !== 'list') {
+      renderAbsPage();
+  }
+}
+
+function advanceAbsPhase() {
+  if (absPhase === 'prep') {
+      absPhase = 'work';
+      absTimeLeft = activeAbsWorkout.workTime;
+  } else if (absPhase === 'work') {
+      if (absExIndex >= activeAbsWorkout.exercises.length - 1) {
+          absPhase = 'done';
+          if(absTimer) clearInterval(absTimer);
+      } else {
+          if (activeAbsWorkout.restTime > 0) {
+              absPhase = 'rest';
+              absTimeLeft = activeAbsWorkout.restTime;
+          } else {
+              absExIndex++;
+              absTimeLeft = activeAbsWorkout.workTime;
+          }
+      }
+  } else if (absPhase === 'rest') {
+      absPhase = 'work';
+      absExIndex++;
+      absTimeLeft = activeAbsWorkout.workTime;
+  }
+}
+// === סוף לוגיקת אימוני בטן ===
+
 const MUSCLE_CATEGORIES = {
   legs:  ['רגליים','ישבן'],
   back:  ['גב','יד קדמית','אמות'],
@@ -690,14 +867,23 @@ async function initApp() {
   try {
     const response = await fetch('workout.json');
     DATA = await response.json();
-    
-    // הפעלת האפליקציה רק אחרי שהנתונים נטענו
-    applyTheme(localStorage.getItem('theme') || 'dark');
-    loadState();
-    setupPages();
   } catch (error) {
-    console.error("שגיאה בטעינת קובץ האימונים:", error);
+    console.error("שגיאה בטעינת קובץ האימונים (workout.json):", error);
   }
+
+  // שאיבת נתוני אימוני הבטן מ-GitHub
+  try {
+    const absResponse = await fetch('abs.json');
+    const absData = await absResponse.json();
+    absWorkoutsData = absData.absWorkouts || [];
+  } catch (error) {
+    console.error("שגיאה בטעינת קובץ אימוני בטן (abs.json):", error);
+  }
+    
+  applyTheme(localStorage.getItem('theme') || 'dark');
+  loadState();
+  setupPages();
+  renderAbsPage(); // הצגת הרשימה למסך החדש
 }
 
 initApp();
@@ -717,6 +903,9 @@ function getNextMuscleDate(muscle){
  
 function setupPages(){
   const container = document.getElementById('pagesContainer');
+  const boardPage = document.getElementById('page-board');
+  const absPage = document.getElementById('page-abs');
+ 
   const musclePages = [
     { id:'page-legs', muscle:'legs' },
     { id:'page-back', muscle:'back' },
@@ -726,13 +915,20 @@ function setupPages(){
   musclePages.forEach(p => p.nextDate = getNextMuscleDate(p.muscle));
   musclePages.sort((a,b) => a.nextDate.localeCompare(b.nextDate));
  
-  // Reorder: board page stays first, then muscle pages by soonest date
+  // סידור מחדש: הבטן משמאל, הטבלה באמצע, הכוח מימין
+  container.appendChild(absPage);
+  container.appendChild(boardPage);
   musclePages.forEach(p => {
     container.appendChild(document.getElementById(p.id));
   });
  
   renderAllExercisePages();
   setupDots();
+
+  // גורם לאפליקציה להתחיל בדיוק במסך האמצעי (הטבלה) כשהיא נפתחת
+  requestAnimationFrame(() => {
+    container.scrollLeft = boardPage.offsetLeft;
+  });
 }
  
 function loadExercises(){
@@ -1124,8 +1320,7 @@ function openTrendModal(muscle, id){
   overlay.addEventListener('click', e => { if(e.target === overlay) overlay.remove(); });
   document.getElementById('closeTrend').onclick = () => overlay.remove();
 }
- 
-function setupDots(){
+ function setupDots(){
   const container = document.getElementById('pagesContainer');
   const dotsEl = document.getElementById('dots');
   const pages = Array.from(container.children);
@@ -1133,7 +1328,8 @@ function setupDots(){
   dotsEl.innerHTML = '';
   pages.forEach((page, i) => {
     const dot = document.createElement('div');
-    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    // מגדיר שהנקודה של המסך הראשי תהיה מוארת בהתחלה
+    dot.className = 'dot' + (page.id === 'page-board' ? ' active' : '');
     dot.addEventListener('click', () => {
       container.scrollTo({ left: page.offsetLeft, behavior:'smooth' });
     });
@@ -1170,7 +1366,7 @@ function setupDots(){
   window.addEventListener('resize', fitContainerHeight);
   window.addEventListener('orientationchange', () => setTimeout(fitContainerHeight, 200));
 }
- 
+
 if('serviceWorker' in navigator){
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('service-worker.js').catch(err => console.error('SW registration failed', err));
@@ -1179,4 +1375,3 @@ if('serviceWorker' in navigator){
 </script>
 </body>
 </html>
- 
