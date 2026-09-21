@@ -1,0 +1,139 @@
+{
+  "absWorkouts": [
+    {
+      "id": "workout_5_min",
+      "title": "אימון 5 דקות - קצב מהיר",
+      "description": "30 שניות עבודה, 10 שניות מנוחה. קצר, מהיר ועצים.",
+      "totalDuration": 300,
+      "workTime": 30,
+      "restTime": 10,
+      "exercises": [
+        { "name": "כפיפות בטן (Crunches)", "gifUrl": "https://example.com/crunches.gif" },
+        { "name": "אופניים (Bicycle Crunches)", "gifUrl": "https://example.com/bicycle.gif" },
+        { "name": "הרמות רגליים (Leg Raises)", "gifUrl": "https://example.com/leg-raises.gif" },
+        { "name": "טוויסט רוסי (Russian Twists)", "gifUrl": "https://example.com/russian-twist.gif" },
+        { "name": "מטפסי הרים (Mountain Climbers)", "gifUrl": "https://example.com/mountain-climbers.gif" },
+        { "name": "נגיעות בעקבים (Heel Touches)", "gifUrl": "https://example.com/heel-touch.gif" },
+        { "name": "קראנץ' הפוך (Reverse Crunches)", "gifUrl": "https://example.com/reverse-crunch.gif" }
+      ]
+    },
+    {
+      "id": "workout_6_min",
+      "title": "אימון 6 דקות - כוח מאוזן",
+      "description": "45 שניות עבודה, 15 שניות מנוחה. דקה לכל תרגיל.",
+      "totalDuration": 360,
+      "workTime": 45,
+      "restTime": 15,
+      "exercises": [
+        { "name": "פלאנק על אמות (Forearm Plank)", "gifUrl": "https://example.com/plank.gif" },
+        { "name": "V-Ups (עליות אולר)", "gifUrl": "https://example.com/v-ups.gif" },
+        { "name": "מספריים (Scissor Kicks)", "gifUrl": "https://example.com/scissors.gif" },
+        { "name": "הולכת ידיים מתוך פלאנק (Plank Walkout)", "gifUrl": "https://example.com/plank-walkout.gif" },
+        { "name": "הבאת ברכיים לחזה (Knee Tucks)", "gifUrl": "https://example.com/knee-tucks.gif" },
+        { "name": "מטפסי הרים בהצלבה (Cross Mountain Climbers)", "gifUrl": "https://example.com/cross-climbers.gif" }
+      ]
+    },
+    {
+      "id": "workout_7_min",
+      "title": "אימון 7 דקות - מודל טבאטה",
+      "description": "20 שניות ספרינט, 10 שניות מנוחה. 2 סבבים רצופים של 7 תרגילים.",
+      "totalDuration": 420,
+      "workTime": 20,
+      "restTime": 10,
+      "exercises": [
+        { "name": "קפיצות פלאנק (Plank Jacks)", "gifUrl": "https://example.com/plank-jacks.gif" },
+        { "name": "אופניים בקצב מהיר (Bicycle Sprints)", "gifUrl": "https://example.com/bicycle.gif" },
+        { "name": "טוויסט רוסי (Russian Twists)", "gifUrl": "https://example.com/russian-twist.gif" },
+        { "name": "בעיטות רפרוף (Flutter Kicks)", "gifUrl": "https://example.com/flutter-kicks.gif" },
+        { "name": "קראנץ' אלכסונים ימין (Right Cross Crunches)", "gifUrl": "https://example.com/cross-crunch-r.gif" },
+        { "name": "קראנץ' אלכסונים שמאל (Left Cross Crunches)", "gifUrl": "https://example.com/cross-crunch-l.gif" },
+        { "name": "סופרמן (Superman)", "gifUrl": "https://example.com/superman.gif" },
+        { "name": "קפיצות פלאנק (Plank Jacks)", "gifUrl": "https://example.com/plank-jacks.gif" },
+        { "name": "אופניים בקצב מהיר (Bicycle Sprints)", "gifUrl": "https://example.com/bicycle.gif" },
+        { "name": "טוויסט רוסי (Russian Twists)", "gifUrl": "https://example.com/russian-twist.gif" },
+        { "name": "בעיטות רפרוף (Flutter Kicks)", "gifUrl": "https://example.com/flutter-kicks.gif" },
+        { "name": "קראנץ' אלכסונים ימין (Right Cross Crunches)", "gifUrl": "https://example.com/cross-crunch-r.gif" },
+        { "name": "קראנץ' אלכסונים שמאל (Left Cross Crunches)", "gifUrl": "https://example.com/cross-crunch-l.gif" },
+        { "name": "סופרמן (Superman)", "gifUrl": "https://example.com/superman.gif" }
+      ]
+    },
+    {
+      "id": "workout_8_min",
+      "title": "אימון 8 דקות - התאוששות כבדה",
+      "description": "40 שניות עבודה, 20 שניות מנוחה. זמן עבודה ממוקד וטכני.",
+      "totalDuration": 480,
+      "workTime": 40,
+      "restTime": 20,
+      "exercises": [
+        { "name": "כפיפות בטן מלאות (Sit-ups)", "gifUrl": "https://example.com/situps.gif" },
+        { "name": "פלאנק על כפות ידיים (High Plank)", "gifUrl": "https://example.com/high-plank.gif" },
+        { "name": "פלאנק צד ימין (Side Plank Right)", "gifUrl": "https://example.com/side-plank-r.gif" },
+        { "name": "פלאנק צד שמאל (Side Plank Left)", "gifUrl": "https://example.com/side-plank-l.gif" },
+        { "name": "נגיעות בבהונות (Toe Touches)", "gifUrl": "https://example.com/toe-touches.gif" },
+        { "name": "כלב-ציפור (Bird Dog)", "gifUrl": "https://example.com/bird-dog.gif" },
+        { "name": "קראנץ' הפוך עם הרמת אגן", "gifUrl": "https://example.com/reverse-crunch-lift.gif" },
+        { "name": "מטפסי הרים איטיים (Slow Climbers)", "gifUrl": "https://example.com/slow-climbers.gif" }
+      ]
+    },
+    {
+      "id": "workout_9_min",
+      "title": "אימון 9 דקות - סיבולת שריר",
+      "description": "50 שניות עבודה, 10 שניות מעבר. כמעט ללא מנוחה.",
+      "totalDuration": 540,
+      "workTime": 50,
+      "restTime": 10,
+      "exercises": [
+        { "name": "פלאנק (Forearm Plank)", "gifUrl": "https://example.com/plank.gif" },
+        { "name": "הרמות רגליים (Leg Raises)", "gifUrl": "https://example.com/leg-raises.gif" },
+        { "name": "טוויסט רוסי (Russian Twists)", "gifUrl": "https://example.com/russian-twist.gif" },
+        { "name": "כפיפות בטן (Crunches)", "gifUrl": "https://example.com/crunches.gif" },
+        { "name": "פלאנק טפיחות כתף (Shoulder Taps)", "gifUrl": "https://example.com/shoulder-taps.gif" },
+        { "name": "אופניים איטיים (Slow Bicycles)", "gifUrl": "https://example.com/slow-bicycle.gif" },
+        { "name": "V-Ups (עליות אולר)", "gifUrl": "https://example.com/v-ups.gif" },
+        { "name": "מספריים (Scissor Kicks)", "gifUrl": "https://example.com/scissors.gif" },
+        { "name": "נגיעות בעקבים (Heel Touches)", "gifUrl": "https://example.com/heel-touch.gif" }
+      ]
+    },
+    {
+      "id": "workout_10_min",
+      "title": "אימון 10 דקות - אתגר 30/30",
+      "description": "30 שניות תנועה, 30 שניות החזקה סטטית לכל תחנה.",
+      "totalDuration": 600,
+      "workTime": 30,
+      "restTime": 30,
+      "exercises": [
+        { "name": "כפיפות בטן אקטיבי (Crunches)", "gifUrl": "https://example.com/crunches.gif" },
+        { "name": "החזקת כיווץ בטן סטטי", "gifUrl": "https://example.com/crunch-hold.gif" },
+        { "name": "מטפסי הרים (Mountain Climbers)", "gifUrl": "https://example.com/mountain-climbers.gif" },
+        { "name": "פלאנק סטטי (Plank Hold)", "gifUrl": "https://example.com/plank.gif" },
+        { "name": "הרמות רגליים (Leg Raises)", "gifUrl": "https://example.com/leg-raises.gif" },
+        { "name": "הרחפת רגליים סטטית (Hollow Hold)", "gifUrl": "https://example.com/hollow-hold.gif" },
+        { "name": "טוויסט רוסי (Russian Twists)", "gifUrl": "https://example.com/russian-twist.gif" },
+        { "name": "ישיבת V סטטית (V-Sit Hold)", "gifUrl": "https://example.com/v-sit-hold.gif" },
+        { "name": "אופניים (Bicycle Crunches)", "gifUrl": "https://example.com/bicycle.gif" },
+        { "name": "פלאנק צד ימין (Side Plank Right)", "gifUrl": "https://example.com/side-plank-r.gif" }
+      ]
+    },
+    {
+      "id": "workout_11_min",
+      "title": "אימון 11 דקות - המסלול החכם",
+      "description": "45 שניות עבודה, 15 שניות מנוחה. הפינישר האולטימטיבי לבטן.",
+      "totalDuration": 660,
+      "workTime": 45,
+      "restTime": 15,
+      "exercises": [
+        { "name": "כפיפות בטן (Crunches)", "gifUrl": "https://example.com/crunches.gif" },
+        { "name": "הרמות רגליים בשכיבה (Leg Raises)", "gifUrl": "https://example.com/leg-raises.gif" },
+        { "name": "פלאנק על אמות (Forearm Plank)", "gifUrl": "https://example.com/plank.gif" },
+        { "name": "טוויסט רוסי (Russian Twists)", "gifUrl": "https://example.com/russian-twist.gif" },
+        { "name": "קראנץ' הפוך (Reverse Crunches)", "gifUrl": "https://example.com/reverse-crunch.gif" },
+        { "name": "מספריים (Scissor Kicks)", "gifUrl": "https://example.com/scissors.gif" },
+        { "name": "פלאנק צד ימין (Side Plank Right)", "gifUrl": "https://example.com/side-plank-r.gif" },
+        { "name": "פלאנק צד שמאל (Side Plank Left)", "gifUrl": "https://example.com/side-plank-l.gif" },
+        { "name": "נגיעות בעקבים (Heel Touches)", "gifUrl": "https://example.com/heel-touch.gif" },
+        { "name": "כלב-ציפור (Bird Dog)", "gifUrl": "https://example.com/bird-dog.gif" },
+        { "name": "מטפסי הרים מבוקרים (Slow Mountain Climbers)", "gifUrl": "https://example.com/mountain-climbers.gif" }
+      ]
+    }
+  ]
+}
