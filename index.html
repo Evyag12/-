@@ -440,6 +440,35 @@ function todayStr(){
   const day = String(d.getDate()).padStart(2,'0');
   return `${y}-${m}-${day}`;
 }
+
+function dateStrFromTimestamp(ts){
+  const d = new Date(ts);
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+
+// Auto-close a workout that was left open by mistake. Since this is a static
+// PWA with no server/push, this can't fire the instant 2 hours pass while the
+// app is closed - it checks whenever the app is opened (even much later) and
+// also every minute while it stays open, and finishes the session using the
+// date it was *started* on (not "today"), so the correct day gets checked off
+// even if you open the app again on a different week.
+const AUTO_FINISH_MS = 2 * 60 * 60 * 1000; // 2 hours
+function checkExpiredWorkouts(){
+  const now = Date.now();
+  Object.keys(activeWorkouts).forEach(muscle => {
+    const session = activeWorkouts[muscle];
+    if(session && session.startedAt && (now - session.startedAt) >= AUTO_FINISH_MS){
+      finishWorkout(muscle, dateStrFromTimestamp(session.startedAt));
+    }
+  });
+}
+setInterval(checkExpiredWorkouts, 60 * 1000);
+document.addEventListener('visibilitychange', () => {
+  if(document.visibilityState === 'visible') checkExpiredWorkouts();
+});
  
 // Saturday bonus activity pool - rotates between these 3, always visible
 function getDisplayDetail(item){
@@ -882,6 +911,7 @@ async function initApp() {
     
   applyTheme(localStorage.getItem('theme') || 'dark');
   loadState();
+  checkExpiredWorkouts();
   setupPages();
   renderAbsPage(); // הצגת הרשימה למסך החדש
 }
@@ -984,12 +1014,12 @@ function toggleWorkoutMode(muscle){
   }
 }
 
-function finishWorkout(muscle){
-  const today = todayStr();
+function finishWorkout(muscle, refDate){
+  const today = refDate || todayStr();
   let marked = false;
   let targetItem = null;
 
-  // 1. Prefer an exact match: today's date has a scheduled day for this muscle.
+  // 1. Prefer an exact match: the reference date has a scheduled day for this muscle.
   DATA.forEach(week => {
     week.days.forEach(item => {
       if(item.muscle === muscle && item.date === today && !completed[item.date]) targetItem = item;
@@ -997,7 +1027,7 @@ function finishWorkout(muscle){
   });
 
   // 2. Otherwise, find the closest not-yet-completed day for this muscle
-  // within the current week (handles doing a workout early/late vs. its
+  // within the reference date's week (handles doing a workout early/late vs. its
   // scheduled day, e.g. doing Thursday's back day on Wednesday instead).
   if(!targetItem){
     const currentWeek = DATA.find(week => week.days.some(d => d.date === today));
