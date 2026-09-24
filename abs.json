@@ -8,13 +8,13 @@
       "workTime": 30,
       "restTime": 10,
       "exercises": [
-        { "name": "כפיפות בטן (Crunches)", "gifUrl": "https://example.com/crunches.gif" },
-        { "name": "אופניים (Bicycle Crunches)", "gifUrl": "https://example.com/bicycle.gif" },
-        { "name": "הרמות רגליים (Leg Raises)", "gifUrl": "https://example.com/leg-raises.gif" },
-        { "name": "טוויסט רוסי (Russian Twists)", "gifUrl": "https://example.com/russian-twist.gif" },
-        { "name": "מטפסי הרים (Mountain Climbers)", "gifUrl": "https://example.com/mountain-climbers.gif" },
-        { "name": "נגיעות בעקבים (Heel Touches)", "gifUrl": "https://example.com/heel-touch.gif" },
-        { "name": "קראנץ' הפוך (Reverse Crunches)", "gifUrl": "https://example.com/reverse-crunch.gif" }
+        { "name": "כפיפות בטן (Crunches)", "gifUrl": "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmNodHpwbjM5NzU4NTgxeW41cG85ZHFxODV5YXFrZDcyZ3k0ZG5qcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/BULVD3364Ec9XMTTS4/giphy.gif" },
+        { "name": "אופניים (Bicycle Crunches)", "gifUrl": "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaDB6YW1sZHY3enhob3h6YXZrand0YzNteTAwcW5ka2Rnb3FxZ2dvcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/TMNCtgJGJnV8k/giphy.gif" },
+        { "name": "הרמות רגליים (Leg Raises)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHVpdnF4MWNiNDd3amJiM2tiZmozY202aG82bWowM29nMjF1Nml0byZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mVpOJcNBGPwzlfkTxJ/giphy.gif" },
+        { "name": "טוויסט רוסי (Russian Twists)", "gifUrl": "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnU0d3NmczN4eHhtZXZrdjVhYXliZ29kNjc0bXEwc3E2ZHc4ZXhucCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/DfeEVAQlxq2oWfq5f5/giphy.gif" },
+        { "name": "מטפסי הרים (Mountain Climbers)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTJ5bDl0M2U1bzgwdTE2djg5bThoY295bmYzZDdpeG13bG83NzBjYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jsYmets3thkLhcvZ43/giphy.gif" },
+        { "name": "נגיעות בעקבים (Heel Touches)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGE1dDJmdG5uNjRxdnV3MHl6MzhkbGRhcGp5eDkxdHRycGNhejFxcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/HRTRkBuLpUqI6CrJhf/giphy.gif" },
+        { "name": "קראנץ' הפוך (Reverse Crunches)", "gifUrl": "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWtxMnM3NjVibGJ1bHYzam9rczJ6dHljZWFtMjUzcnNmcTk4Z3o2dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/2P6rMHTsRmWGwiwRMt/giphy.gif" }
       ]
     },
     {
@@ -25,12 +25,12 @@
       "workTime": 45,
       "restTime": 15,
       "exercises": [
-        { "name": "פלאנק על אמות (Forearm Plank)", "gifUrl": "https://example.com/plank.gif" },
-        { "name": "V-Ups (עליות אולר)", "gifUrl": "https://example.com/v-ups.gif" },
-        { "name": "מספריים (Scissor Kicks)", "gifUrl": "https://example.com/scissors.gif" },
-        { "name": "הולכת ידיים מתוך פלאנק (Plank Walkout)", "gifUrl": "https://example.com/plank-walkout.gif" },
-        { "name": "הבאת ברכיים לחזה (Knee Tucks)", "gifUrl": "https://example.com/knee-tucks.gif" },
-        { "name": "מטפסי הרים בהצלבה (Cross Mountain Climbers)", "gifUrl": "https://example.com/cross-climbers.gif" }
+        { "name": "פלאנק על אמות (Forearm Plank)", "gifUrl": "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExazVobjIxdmt5Y25xN3djZ2ppMjNsYWc1Zm56Nm1jZzVpbzA3ZjlhYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT8qBff8cRRFf7k2u4/giphy.gif" },
+        { "name": "V-Ups (עליות אולר)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWNyMzc4bjZ1c2hnYXhnMDVqdTBqMmhwMXp0YXZwanVtbjR4NDY0dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UrW9mjKCp9xd91mQDO/giphy.gif" },
+        { "name": "מספריים (Scissor Kicks)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExem43NDN4cWFweXJ2cjhjZWZzbzl5M3Rsd2Z2bTMydTN4eHR5Y3RlMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ZgUWTHU1RzNHLyKBsv/giphy.gif" },
+        { "name": "פלאנק טפיחות כתף (Plank Shoulder Taps)", "gifUrl": "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGE2dXhjOWw0cmR2bXU2ZXJ4NGVmcm1xMWhoMHZubGoyNDQ5aGJkcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UUi18no2QqDAMv47Xq/giphy.gif" },
+        { "name": "הבאת ברכיים לחזה (Knee Tucks)", "gifUrl": "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdTF3eXA4YWprMjI5ZDdjZnAzaGFmNzRjN3UydTZhZzR0ZGE5dzliNyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3sxuZZRscFW9O/giphy.gif" },
+        { "name": "מטפסי הרים בהצלבה (Cross Mountain Climbers)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTJ5bDl0M2U1bzgwdTE2djg5bThoY295bmYzZDdpeG13bG83NzBjYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jsYmets3thkLhcvZ43/giphy.gif" }
       ]
     },
     {
@@ -41,20 +41,20 @@
       "workTime": 20,
       "restTime": 10,
       "exercises": [
-        { "name": "קפיצות פלאנק (Plank Jacks)", "gifUrl": "https://example.com/plank-jacks.gif" },
-        { "name": "אופניים בקצב מהיר (Bicycle Sprints)", "gifUrl": "https://example.com/bicycle.gif" },
-        { "name": "טוויסט רוסי (Russian Twists)", "gifUrl": "https://example.com/russian-twist.gif" },
-        { "name": "בעיטות רפרוף (Flutter Kicks)", "gifUrl": "https://example.com/flutter-kicks.gif" },
-        { "name": "קראנץ' אלכסונים ימין (Right Cross Crunches)", "gifUrl": "https://example.com/cross-crunch-r.gif" },
-        { "name": "קראנץ' אלכסונים שמאל (Left Cross Crunches)", "gifUrl": "https://example.com/cross-crunch-l.gif" },
-        { "name": "סופרמן (Superman)", "gifUrl": "https://example.com/superman.gif" },
-        { "name": "קפיצות פלאנק (Plank Jacks)", "gifUrl": "https://example.com/plank-jacks.gif" },
-        { "name": "אופניים בקצב מהיר (Bicycle Sprints)", "gifUrl": "https://example.com/bicycle.gif" },
-        { "name": "טוויסט רוסי (Russian Twists)", "gifUrl": "https://example.com/russian-twist.gif" },
-        { "name": "בעיטות רפרוף (Flutter Kicks)", "gifUrl": "https://example.com/flutter-kicks.gif" },
-        { "name": "קראנץ' אלכסונים ימין (Right Cross Crunches)", "gifUrl": "https://example.com/cross-crunch-r.gif" },
-        { "name": "קראנץ' אלכסונים שמאל (Left Cross Crunches)", "gifUrl": "https://example.com/cross-crunch-l.gif" },
-        { "name": "סופרמן (Superman)", "gifUrl": "https://example.com/superman.gif" }
+        { "name": "קפיצות פלאנק (Plank Jacks)", "gifUrl": "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTZ5b2h6ODRua280Z2JmbG5lMDRrdm1iYmI0OWR6ZXVmd3VpcTZxMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/2UqZvQq4p9DjTBDVRc/giphy.gif" },
+        { "name": "אופניים בקצב מהיר (Bicycle Sprints)", "gifUrl": "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaDB6YW1sZHY3enhob3h6YXZrand0YzNteTAwcW5ka2Rnb3FxZ2dvcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/TMNCtgJGJnV8k/giphy.gif" },
+        { "name": "טוויסט רוסי (Russian Twists)", "gifUrl": "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnU0d3NmczN4eHhtZXZrdjVhYXliZ29kNjc0bXEwc3E2ZHc4ZXhucCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/DfeEVAQlxq2oWfq5f5/giphy.gif" },
+        { "name": "בעיטות רפרוף (Flutter Kicks)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExem43NDN4cWFweXJ2cjhjZWZzbzl5M3Rsd2Z2bTMydTN4eHR5Y3RlMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ZgUWTHU1RzNHLyKBsv/giphy.gif" },
+        { "name": "מטפסי הרים (Mountain Climbers)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTJ5bDl0M2U1bzgwdTE2djg5bThoY295bmYzZDdpeG13bG83NzBjYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jsYmets3thkLhcvZ43/giphy.gif" },
+        { "name": "נגיעות בעקבים (Heel Touches)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGE1dDJmdG5uNjRxdnV3MHl6MzhkbGRhcGp5eDkxdHRycGNhejFxcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/HRTRkBuLpUqI6CrJhf/giphy.gif" },
+        { "name": "סופרמן (Superman)", "gifUrl": "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNnFqdWRraThubGxjdDV6ZTFoYjZzZjFnMzdkeHRkY2Vhb2p0c3o1NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT0BKJCBQAjY4LiuOc/giphy.gif" },
+        { "name": "קפיצות פלאנק (Plank Jacks)", "gifUrl": "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTZ5b2h6ODRua280Z2JmbG5lMDRrdm1iYmI0OWR6ZXVmd3VpcTZxMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/2UqZvQq4p9DjTBDVRc/giphy.gif" },
+        { "name": "אופניים בקצב מהיר (Bicycle Sprints)", "gifUrl": "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaDB6YW1sZHY3enhob3h6YXZrand0YzNteTAwcW5ka2Rnb3FxZ2dvcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/TMNCtgJGJnV8k/giphy.gif" },
+        { "name": "טוויסט רוסי (Russian Twists)", "gifUrl": "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnU0d3NmczN4eHhtZXZrdjVhYXliZ29kNjc0bXEwc3E2ZHc4ZXhucCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/DfeEVAQlxq2oWfq5f5/giphy.gif" },
+        { "name": "בעיטות רפרוף (Flutter Kicks)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExem43NDN4cWFweXJ2cjhjZWZzbzl5M3Rsd2Z2bTMydTN4eHR5Y3RlMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ZgUWTHU1RzNHLyKBsv/giphy.gif" },
+        { "name": "מטפסי הרים (Mountain Climbers)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTJ5bDl0M2U1bzgwdTE2djg5bThoY295bmYzZDdpeG13bG83NzBjYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jsYmets3thkLhcvZ43/giphy.gif" },
+        { "name": "נגיעות בעקבים (Heel Touches)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGE1dDJmdG5uNjRxdnV3MHl6MzhkbGRhcGp5eDkxdHRycGNhejFxcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/HRTRkBuLpUqI6CrJhf/giphy.gif" },
+        { "name": "סופרמן (Superman)", "gifUrl": "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNnFqdWRraThubGxjdDV6ZTFoYjZzZjFnMzdkeHRkY2Vhb2p0c3o1NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT0BKJCBQAjY4LiuOc/giphy.gif" }
       ]
     },
     {
@@ -65,14 +65,14 @@
       "workTime": 40,
       "restTime": 20,
       "exercises": [
-        { "name": "כפיפות בטן מלאות (Sit-ups)", "gifUrl": "https://example.com/situps.gif" },
-        { "name": "פלאנק על כפות ידיים (High Plank)", "gifUrl": "https://example.com/high-plank.gif" },
-        { "name": "פלאנק צד ימין (Side Plank Right)", "gifUrl": "https://example.com/side-plank-r.gif" },
-        { "name": "פלאנק צד שמאל (Side Plank Left)", "gifUrl": "https://example.com/side-plank-l.gif" },
-        { "name": "נגיעות בבהונות (Toe Touches)", "gifUrl": "https://example.com/toe-touches.gif" },
-        { "name": "כלב-ציפור (Bird Dog)", "gifUrl": "https://example.com/bird-dog.gif" },
-        { "name": "קראנץ' הפוך עם הרמת אגן", "gifUrl": "https://example.com/reverse-crunch-lift.gif" },
-        { "name": "מטפסי הרים איטיים (Slow Climbers)", "gifUrl": "https://example.com/slow-climbers.gif" }
+        { "name": "כפיפות בטן מלאות (Sit-ups)", "gifUrl": "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWZhc2txcmJ3ZnVncmJjYnd0a2Z3bG4xbm9zZmg3bXZzc2NoMnM0MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jQratcmckkyoZH85v6/giphy.gif" },
+        { "name": "פלאנק על כפות ידיים (High Plank)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzR1dWVic2J6b3U5ZnNjaHViN2Fya3ozemFodnltMWowbzR5NTQ2ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/d3mlADRlF7SMFQRy/giphy.gif" },
+        { "name": "פלאנק צד ימין (Side Plank Right)", "gifUrl": "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNm53MWowaml5MDd0MHZzaDJrNHY3Ym96Ynk2Y2cyMHcza2lpMGEzZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/du5JOJSlsqzZVk9vVl/giphy.gif" },
+        { "name": "פלאנק צד שמאל (Side Plank Left)", "gifUrl": "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNm53MWowaml5MDd0MHZzaDJrNHY3Ym96Ynk2Y2cyMHcza2lpMGEzZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/du5JOJSlsqzZVk9vVl/giphy.gif" },
+        { "name": "נגיעות בבהונות (Toe Touches)", "gifUrl": "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNGdhZ3Nzd2NoZGdweGk1bzBjdTY2a2pvdDJiZjVweTdmZ3QyNWlmdCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/12zNRA0uoJ6Qxi/giphy.gif" },
+        { "name": "כלב-ציפור (Bird Dog)", "gifUrl": "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGh1ZnUxem8yNHVndzZ6bWpjbzBndG5maTB3dG9waGJnaWg0cmcwciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dZ8TmzFGtr1UP9mZWI/giphy.gif" },
+        { "name": "קראנץ' הפוך עם הרמת אגן", "gifUrl": "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWtxMnM3NjVibGJ1bHYzam9rczJ6dHljZWFtMjUzcnNmcTk4Z3o2dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/2P6rMHTsRmWGwiwRMt/giphy.gif" },
+        { "name": "מטפסי הרים איטיים (Slow Climbers)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTJ5bDl0M2U1bzgwdTE2djg5bThoY295bmYzZDdpeG13bG83NzBjYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jsYmets3thkLhcvZ43/giphy.gif" }
       ]
     },
     {
@@ -83,15 +83,15 @@
       "workTime": 50,
       "restTime": 10,
       "exercises": [
-        { "name": "פלאנק (Forearm Plank)", "gifUrl": "https://example.com/plank.gif" },
-        { "name": "הרמות רגליים (Leg Raises)", "gifUrl": "https://example.com/leg-raises.gif" },
-        { "name": "טוויסט רוסי (Russian Twists)", "gifUrl": "https://example.com/russian-twist.gif" },
-        { "name": "כפיפות בטן (Crunches)", "gifUrl": "https://example.com/crunches.gif" },
-        { "name": "פלאנק טפיחות כתף (Shoulder Taps)", "gifUrl": "https://example.com/shoulder-taps.gif" },
-        { "name": "אופניים איטיים (Slow Bicycles)", "gifUrl": "https://example.com/slow-bicycle.gif" },
-        { "name": "V-Ups (עליות אולר)", "gifUrl": "https://example.com/v-ups.gif" },
-        { "name": "מספריים (Scissor Kicks)", "gifUrl": "https://example.com/scissors.gif" },
-        { "name": "נגיעות בעקבים (Heel Touches)", "gifUrl": "https://example.com/heel-touch.gif" }
+        { "name": "פלאנק (Forearm Plank)", "gifUrl": "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExazVobjIxdmt5Y25xN3djZ2ppMjNsYWc1Zm56Nm1jZzVpbzA3ZjlhYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT8qBff8cRRFf7k2u4/giphy.gif" },
+        { "name": "הרמות רגליים (Leg Raises)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHVpdnF4MWNiNDd3amJiM2tiZmozY202aG82bWowM29nMjF1Nml0byZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mVpOJcNBGPwzlfkTxJ/giphy.gif" },
+        { "name": "טוויסט רוסי (Russian Twists)", "gifUrl": "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnU0d3NmczN4eHhtZXZrdjVhYXliZ29kNjc0bXEwc3E2ZHc4ZXhucCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/DfeEVAQlxq2oWfq5f5/giphy.gif" },
+        { "name": "כפיפות בטן (Crunches)", "gifUrl": "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmNodHpwbjM5NzU4NTgxeW41cG85ZHFxODV5YXFrZDcyZ3k0ZG5qcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/BULVD3364Ec9XMTTS4/giphy.gif" },
+        { "name": "פלאנק טפיחות כתף (Shoulder Taps)", "gifUrl": "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGE2dXhjOWw0cmR2bXU2ZXJ4NGVmcm1xMWhoMHZubGoyNDQ5aGJkcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UUi18no2QqDAMv47Xq/giphy.gif" },
+        { "name": "אופניים איטיים (Slow Bicycles)", "gifUrl": "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaDB6YW1sZHY3enhob3h6YXZrand0YzNteTAwcW5ka2Rnb3FxZ2dvcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/TMNCtgJGJnV8k/giphy.gif" },
+        { "name": "V-Ups (עליות אולר)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWNyMzc4bjZ1c2hnYXhnMDVqdTBqMmhwMXp0YXZwanVtbjR4NDY0dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UrW9mjKCp9xd91mQDO/giphy.gif" },
+        { "name": "מספריים (Scissor Kicks)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExem43NDN4cWFweXJ2cjhjZWZzbzl5M3Rsd2Z2bTMydTN4eHR5Y3RlMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ZgUWTHU1RzNHLyKBsv/giphy.gif" },
+        { "name": "נגיעות בעקבים (Heel Touches)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGE1dDJmdG5uNjRxdnV3MHl6MzhkbGRhcGp5eDkxdHRycGNhejFxcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/HRTRkBuLpUqI6CrJhf/giphy.gif" }
       ]
     },
     {
@@ -102,16 +102,16 @@
       "workTime": 30,
       "restTime": 30,
       "exercises": [
-        { "name": "כפיפות בטן אקטיבי (Crunches)", "gifUrl": "https://example.com/crunches.gif" },
-        { "name": "החזקת כיווץ בטן סטטי", "gifUrl": "https://example.com/crunch-hold.gif" },
-        { "name": "מטפסי הרים (Mountain Climbers)", "gifUrl": "https://example.com/mountain-climbers.gif" },
-        { "name": "פלאנק סטטי (Plank Hold)", "gifUrl": "https://example.com/plank.gif" },
-        { "name": "הרמות רגליים (Leg Raises)", "gifUrl": "https://example.com/leg-raises.gif" },
-        { "name": "הרחפת רגליים סטטית (Hollow Hold)", "gifUrl": "https://example.com/hollow-hold.gif" },
-        { "name": "טוויסט רוסי (Russian Twists)", "gifUrl": "https://example.com/russian-twist.gif" },
-        { "name": "ישיבת V סטטית (V-Sit Hold)", "gifUrl": "https://example.com/v-sit-hold.gif" },
-        { "name": "אופניים (Bicycle Crunches)", "gifUrl": "https://example.com/bicycle.gif" },
-        { "name": "פלאנק צד ימין (Side Plank Right)", "gifUrl": "https://example.com/side-plank-r.gif" }
+        { "name": "כפיפות בטן אקטיבי (Crunches)", "gifUrl": "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmNodHpwbjM5NzU4NTgxeW41cG85ZHFxODV5YXFrZDcyZ3k0ZG5qcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/BULVD3364Ec9XMTTS4/giphy.gif" },
+        { "name": "החזקת כיווץ בטן סטטי", "gifUrl": "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmNodHpwbjM5NzU4NTgxeW41cG85ZHFxODV5YXFrZDcyZ3k0ZG5qcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/BULVD3364Ec9XMTTS4/giphy.gif" },
+        { "name": "מטפסי הרים (Mountain Climbers)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTJ5bDl0M2U1bzgwdTE2djg5bThoY295bmYzZDdpeG13bG83NzBjYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jsYmets3thkLhcvZ43/giphy.gif" },
+        { "name": "פלאנק סטטי (Plank Hold)", "gifUrl": "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExazVobjIxdmt5Y25xN3djZ2ppMjNsYWc1Zm56Nm1jZzVpbzA3ZjlhYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT8qBff8cRRFf7k2u4/giphy.gif" },
+        { "name": "הרמות רגליים (Leg Raises)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHVpdnF4MWNiNDd3amJiM2tiZmozY202aG82bWowM29nMjF1Nml0byZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mVpOJcNBGPwzlfkTxJ/giphy.gif" },
+        { "name": "הרחפת רגליים סטטית (Hollow Hold)", "gifUrl": "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXltd3d3aWp3czBiemhoMnM1N2NpZGRhc3VveDYwMHJqc2tpaXNobSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9XbMdlJgKXXkEtC60Q/giphy.gif" },
+        { "name": "טוויסט רוסי (Russian Twists)", "gifUrl": "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnU0d3NmczN4eHhtZXZrdjVhYXliZ29kNjc0bXEwc3E2ZHc4ZXhucCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/DfeEVAQlxq2oWfq5f5/giphy.gif" },
+        { "name": "ישיבת V סטטית (V-Sit Hold)", "gifUrl": "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXltd3d3aWp3czBiemhoMnM1N2NpZGRhc3VveDYwMHJqc2tpaXNobSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9XbMdlJgKXXkEtC60Q/giphy.gif" },
+        { "name": "אופניים (Bicycle Crunches)", "gifUrl": "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaDB6YW1sZHY3enhob3h6YXZrand0YzNteTAwcW5ka2Rnb3FxZ2dvcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/TMNCtgJGJnV8k/giphy.gif" },
+        { "name": "פלאנק צד ימין (Side Plank Right)", "gifUrl": "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNm53MWowaml5MDd0MHZzaDJrNHY3Ym96Ynk2Y2cyMHcza2lpMGEzZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/du5JOJSlsqzZVk9vVl/giphy.gif" }
       ]
     },
     {
@@ -122,17 +122,17 @@
       "workTime": 45,
       "restTime": 15,
       "exercises": [
-        { "name": "כפיפות בטן (Crunches)", "gifUrl": "https://example.com/crunches.gif" },
-        { "name": "הרמות רגליים בשכיבה (Leg Raises)", "gifUrl": "https://example.com/leg-raises.gif" },
-        { "name": "פלאנק על אמות (Forearm Plank)", "gifUrl": "https://example.com/plank.gif" },
-        { "name": "טוויסט רוסי (Russian Twists)", "gifUrl": "https://example.com/russian-twist.gif" },
-        { "name": "קראנץ' הפוך (Reverse Crunches)", "gifUrl": "https://example.com/reverse-crunch.gif" },
-        { "name": "מספריים (Scissor Kicks)", "gifUrl": "https://example.com/scissors.gif" },
-        { "name": "פלאנק צד ימין (Side Plank Right)", "gifUrl": "https://example.com/side-plank-r.gif" },
-        { "name": "פלאנק צד שמאל (Side Plank Left)", "gifUrl": "https://example.com/side-plank-l.gif" },
-        { "name": "נגיעות בעקבים (Heel Touches)", "gifUrl": "https://example.com/heel-touch.gif" },
-        { "name": "כלב-ציפור (Bird Dog)", "gifUrl": "https://example.com/bird-dog.gif" },
-        { "name": "מטפסי הרים מבוקרים (Slow Mountain Climbers)", "gifUrl": "https://example.com/mountain-climbers.gif" }
+        { "name": "כפיפות בטן (Crunches)", "gifUrl": "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmNodHpwbjM5NzU4NTgxeW41cG85ZHFxODV5YXFrZDcyZ3k0ZG5qcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/BULVD3364Ec9XMTTS4/giphy.gif" },
+        { "name": "הרמות רגליים בשכיבה (Leg Raises)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHVpdnF4MWNiNDd3amJiM2tiZmozY202aG82bWowM29nMjF1Nml0byZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mVpOJcNBGPwzlfkTxJ/giphy.gif" },
+        { "name": "פלאנק על אמות (Forearm Plank)", "gifUrl": "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExazVobjIxdmt5Y25xN3djZ2ppMjNsYWc1Zm56Nm1jZzVpbzA3ZjlhYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT8qBff8cRRFf7k2u4/giphy.gif" },
+        { "name": "טוויסט רוסי (Russian Twists)", "gifUrl": "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnU0d3NmczN4eHhtZXZrdjVhYXliZ29kNjc0bXEwc3E2ZHc4ZXhucCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/DfeEVAQlxq2oWfq5f5/giphy.gif" },
+        { "name": "קראנץ' הפוך (Reverse Crunches)", "gifUrl": "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWtxMnM3NjVibGJ1bHYzam9rczJ6dHljZWFtMjUzcnNmcTk4Z3o2dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/2P6rMHTsRmWGwiwRMt/giphy.gif" },
+        { "name": "מספריים (Scissor Kicks)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExem43NDN4cWFweXJ2cjhjZWZzbzl5M3Rsd2Z2bTMydTN4eHR5Y3RlMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ZgUWTHU1RzNHLyKBsv/giphy.gif" },
+        { "name": "פלאנק צד ימין (Side Plank Right)", "gifUrl": "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNm53MWowaml5MDd0MHZzaDJrNHY3Ym96Ynk2Y2cyMHcza2lpMGEzZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/du5JOJSlsqzZVk9vVl/giphy.gif" },
+        { "name": "פלאנק צד שמאל (Side Plank Left)", "gifUrl": "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNm53MWowaml5MDd0MHZzaDJrNHY3Ym96Ynk2Y2cyMHcza2lpMGEzZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/du5JOJSlsqzZVk9vVl/giphy.gif" },
+        { "name": "נגיעות בעקבים (Heel Touches)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGE1dDJmdG5uNjRxdnV3MHl6MzhkbGRhcGp5eDkxdHRycGNhejFxcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/HRTRkBuLpUqI6CrJhf/giphy.gif" },
+        { "name": "כלב-ציפור (Bird Dog)", "gifUrl": "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGh1ZnUxem8yNHVndzZ6bWpjbzBndG5maTB3dG9waGJnaWg0cmcwciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dZ8TmzFGtr1UP9mZWI/giphy.gif" },
+        { "name": "מטפסי הרים מבוקרים (Slow Mountain Climbers)", "gifUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTJ5bDl0M2U1bzgwdTE2djg5bThoY295bmYzZDdpeG13bG83NzBjYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jsYmets3thkLhcvZ43/giphy.gif" }
       ]
     }
   ]
