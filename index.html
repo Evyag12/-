@@ -300,6 +300,15 @@ body{
 .modal-btn.primary{ background:var(--ember); color:var(--ember-ink); }
 .modal-btn.secondary{ background:var(--surface-2); color:var(--ink-dim); }
 
+.exercise-card{ -webkit-user-select:none; user-select:none; -webkit-touch-callout:none; }
+.move-cat-list{ display:flex; flex-direction:column; gap:8px; margin-top:4px; }
+.move-cat-option{
+  width:100%; box-sizing:border-box; padding:12px 14px; cursor:pointer;
+  background:var(--surface-2); border:1px solid transparent; border-radius:var(--radius-sm);
+  color:var(--ink); font-family:inherit; font-size:14px; font-weight:600; text-align:right;
+}
+.move-cat-option:active{ border-color:var(--ember); }
+
 /* Active workout mode */
 .workout-toggle-btn{
   width:100%; margin:2px 0 18px; padding:13px 16px; border-radius:var(--radius-pill);
@@ -1104,6 +1113,79 @@ function toggleExerciseCheck(muscle, id){
   renderExercisePage(muscle);
 }
 
+let longPressTimer = null;
+let longPressFired = false;
+
+function startLongPress(e, muscle, id){
+  if(e.target.closest('.exercise-checkbox') || e.target.closest('.exercise-menu-btn')) return;
+  if(activeWorkouts[muscle]) return; // block moving during an active workout
+  clearTimeout(longPressTimer);
+  longPressFired = false;
+  longPressTimer = setTimeout(() => {
+    longPressFired = true;
+    if(navigator.vibrate) navigator.vibrate(30);
+    openMoveExerciseModal(muscle, id);
+  }, 700);
+}
+
+function cancelLongPress(){
+  clearTimeout(longPressTimer);
+  longPressTimer = null;
+}
+
+function handleExerciseCardClick(e, muscle, id){
+  if(longPressFired){ longPressFired = false; return; }
+  openLogModal(muscle, id);
+}
+
+function openMoveExerciseModal(muscle, id){
+  const ex = findExercise(muscle, id);
+  if(!ex) return;
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  let optionsHtml = '';
+  Object.keys(MUSCLE_CATEGORIES).forEach(mKey => {
+    MUSCLE_CATEGORIES[mKey].forEach(cat => {
+      if(cat === ex.category) return;
+      optionsHtml += `<button class="move-cat-option" data-muscle="${mKey}" data-cat="${cat}">${cat}</button>`;
+    });
+  });
+  overlay.innerHTML = `
+    <div class="modal-box">
+      <p class="modal-title">הזזת "${ex.name}"</p>
+      <label class="modal-label">לאן להעביר את התרגיל?</label>
+      <div class="move-cat-list">${optionsHtml}</div>
+      <div class="modal-actions">
+        <button class="modal-btn secondary" id="cancelMoveExercise">ביטול</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.querySelectorAll('.move-cat-option').forEach(btn => {
+    btn.onclick = () => {
+      moveExercise(muscle, id, btn.dataset.muscle, btn.dataset.cat);
+      overlay.remove();
+    };
+  });
+  document.getElementById('cancelMoveExercise').onclick = () => overlay.remove();
+  overlay.onclick = (e) => { if(e.target === overlay) overlay.remove(); };
+}
+
+function moveExercise(oldMuscle, id, newMuscle, newCategory){
+  const list = exercisesData[oldMuscle] || [];
+  const idx = list.findIndex(e => e.id === id);
+  if(idx === -1) return;
+  const ex = list[idx];
+  ex.category = newCategory;
+  if(newMuscle !== oldMuscle){
+    list.splice(idx, 1);
+    if(!exercisesData[newMuscle]) exercisesData[newMuscle] = [];
+    exercisesData[newMuscle].push(ex);
+  }
+  saveExercises();
+  renderExercisePage(oldMuscle);
+  if(newMuscle !== oldMuscle) renderExercisePage(newMuscle);
+}
+
 function renderExercisePage(muscle){
   const body = document.getElementById('muscle-body-' + muscle);
   const pageEl = document.getElementById('page-' + muscle);
@@ -1134,7 +1216,10 @@ function renderExercisePage(muscle){
         const checkboxHtml = session
           ? `<span class="exercise-checkbox ${isChecked ? 'checked' : ''}" onclick="event.stopPropagation(); toggleExerciseCheck('${muscle}','${ex.id}')">${isChecked ? '✓' : ''}</span>`
           : '';
-        html += `<div class="exercise-card ${isChecked ? 'done' : ''}" onclick="openLogModal('${muscle}','${ex.id}')">
+        html += `<div class="exercise-card ${isChecked ? 'done' : ''}"
+          onclick="handleExerciseCardClick(event,'${muscle}','${ex.id}')"
+          onpointerdown="startLongPress(event,'${muscle}','${ex.id}')"
+          onpointerup="cancelLongPress()" onpointerleave="cancelLongPress()" onpointercancel="cancelLongPress()">
           <span class="exercise-info">
             <span class="exercise-name">${ex.name}</span>
             <span class="exercise-last">${lastInfo}</span>
