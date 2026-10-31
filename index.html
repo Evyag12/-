@@ -70,6 +70,12 @@ body{
   transition:transform 0.15s;
 }
 .theme-toggle:hover{ transform:scale(1.06); }
+.export-toggle{ left:58px; }
+.export-text{
+  width:100%; box-sizing:border-box; height:220px; resize:none; direction:ltr;
+  background:var(--surface-2); color:var(--ink); border:1px solid transparent;
+  border-radius:var(--radius-sm); padding:10px; font-size:11px; font-family:monospace;
+}
 
 .app-eyebrow{
   font-size:13px; font-weight:600; color:var(--ink-dim);
@@ -351,6 +357,7 @@ body{
  
 <div class="header">
   <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" aria-label="החלף מצב תצוגה">🌙</button>
+  <button id="exportBtn" class="theme-toggle export-toggle" onclick="openExportModal()" aria-label="ייצוא נתונים">📤</button>
 </div>
  
   <div class="pages-container" id="pagesContainer">
@@ -671,6 +678,42 @@ function applyTheme(theme){
   localStorage.setItem('theme', theme);
 }
  
+function buildExportData(){
+  let completed = {};
+  try{ completed = JSON.parse(localStorage.getItem('completed-days') || '{}'); }catch(e){}
+  return JSON.stringify({ exportedAt: todayStr(), exercises: exercisesData, completedDays: completed });
+}
+
+function openExportModal(){
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.innerHTML = `
+    <div class="modal-box">
+      <p class="modal-title">ייצוא נתונים</p>
+      <label class="modal-label">לחץ "העתק" והדבק בצ'אט</label>
+      <textarea class="export-text" id="exportText" readonly></textarea>
+      <div class="modal-actions">
+        <button class="modal-btn primary" id="copyExport">העתק</button>
+        <button class="modal-btn secondary" id="closeExport">סגור</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  const ta = document.getElementById('exportText');
+  ta.value = buildExportData();
+  document.getElementById('copyExport').onclick = async () => {
+    const btn = document.getElementById('copyExport');
+    try{
+      await navigator.clipboard.writeText(ta.value);
+    }catch(e){
+      ta.focus(); ta.select();
+      try{ document.execCommand('copy'); }catch(e2){}
+    }
+    btn.textContent = 'הועתק ✓';
+  };
+  document.getElementById('closeExport').onclick = () => overlay.remove();
+  overlay.onclick = (e) => { if(e.target === overlay) overlay.remove(); };
+}
+
 function toggleTheme(){
   const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
   applyTheme(current === 'light' ? 'dark' : 'light');
