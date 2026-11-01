@@ -651,7 +651,7 @@ function renderHero(){
   const dayLabel = `${todayItem.date.split('-').reverse().slice(0,2).join('.')} · ${todayItem.day}`;
   const isDone = !!completed[todayItem.date];
   const typeIcons = { gym:'💪', run:'🏃', home:'🏠', rest:'😴', bonus:'🏅' };
-  const icon = typeIcons[todayItem.type] || '📅';
+  const icon = todayItem.icon || typeIcons[todayItem.type] || '📅';
 
   let actionHtml = '';
   if(!isDone && todayItem.type === 'gym' && todayItem.muscle){
@@ -1399,7 +1399,7 @@ function openLogModal(muscle, id){
       const prevReps = existingCheck ? existingCheck.prevReps : ex.reps;
 
       const isNewPB = ex.weight == null || w > ex.weight;
-      if(isNewPB){
+      if(isNewPB || w === ex.weight){
         ex.weight = w;
         ex.reps = repsVal;
       }
@@ -1461,7 +1461,7 @@ function openTrendModal(muscle, id){
         <polyline points="${points}" fill="none" stroke="#b6905c" stroke-width="2"/>
       </svg>
       <div>${history.slice().reverse().map(pt => `
-        <div class="trend-row"><span>${pt.date}</span><span>${pt.weight} ק"ג${pt.reps != null ? ' × ' + pt.reps : ''}</span></div>
+        <div class="trend-row"><span>${pt.date}</span><span>${pt.weight} ק"ג</span></div>
       `).join('')}</div>
     `;
   }
